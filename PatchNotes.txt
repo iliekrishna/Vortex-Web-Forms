@@ -1,0 +1,100 @@
+Contém: 
+
+==================================================================================
+	Aba com formulário para dúvidas
+			- Dados: Nome, CPF, Tipo de vínculo (Aluno, Ex aluno e Comunidade externa), RA, E-mail, Curso (Logística Aeroportuária
+		Logística – Tarde
+		Logística – Noite
+		Gestão Empresarial (EAD)
+		Análise e Desenvolvimento de Sistemas
+		Comércio Exterior
+		Gestão da Produção Industrial), Assunto
+			- Botão Enviar Ticket
+
+		FAQ
+- Pergunta 1:
+
+Resposta 1
+
+Pergunta 2:
+
+Resposta 2
+
+Pergunta 3:
+
+Resposta 3
+		
+==================================================================================
+
+	Aba buscar resposta
+	- Dados: CPF
+	- Botão Buscar
+	- Resposta
+	- Histórico de Perguntas e Respostas
+	
+==================================================================================
+
+	Aba Solicitar Documentos
+
+	
+Nº de Matrícula (RA): [] 
+Fone para Contato: [] 
+
+CURSOS 
+
+( ) Logística Aeroportuária 
+( ) Logística  ( ) Tarde ( ) Noite 
+( ) Gestão Empresarial (EAD) 
+( ) Análise e desenvolvimento de sistemas 
+( ) Comércio Exterior 
+( ) Gestão da Produção Industrial 
+
+Nome: 
+[___________________________________________] 
+
+RG: 
+[___________________________________________] 
+
+E-MAIL: 
+[___________________________________________] 
+
+Assinale com X o(s) Documento(s) Solicitado(s): 
+
+( ) Certificado de Conclusão de curso 
+( ) Declaração de Conclusão de Curso 
+( ) Histórico Escolar 
+( ) Conteúdo Programático 
+( ) Carteira de Identidade Escolar (RA) 
+
+Prazo estimado:
+Histórico Escolar: 3 dias úteis
+
+Carteira de Identidade Escolar (RA): 5 dias úteis
+
+Conteúdo Programático: 30 dias úteis
+
+Declaração de Conclusão de Curso: 3 dias úteis
+
+Certificado de Conclusão de curso: 5 dias úteis
+
+=========================================================================
+
+Adicionado:
+	
+	- Aba de solicitação de documento
+		- Prazos estimados
+	- Logo branca, fundo degradê
+	- Removida aba de FAQ (conteúdo foi pra aba de tickets)
+	- Mudança no lugar das abas
+
+=========================================================================
+
+Javascript: id do formulário de ticket alterado para formTicket e o de requerimento para formRequerimento
+
+adicionado 
+
+         - Envio de requerimento (javascript)
+         - enviar_requerimento.php
+         
+
+ 
