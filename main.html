@@ -10,154 +10,192 @@
   <img src="images/logo_fatec_br.png" alt="Logo Fatec" class="logo" draggable="false">
 
   <div class="tab">
-    <button class="tablinks active" data-tab="tabEnviar">Enviar Dúvida</button>
+    <button class="tablinks active" data-tab="tabEnviar">Dúvidas Frequentes</button>
     <button class="tablinks" data-tab="tabSolicitarDoc">Solicitar Documentos</button>
     <button class="tablinks" data-tab="tabBuscar">Buscar Resposta</button>
-    </div>
+  </div>
 
   <div class="container">
-      <div id="tabEnviar" class="tabcontent active">
-          <h2>Formulário de Abertura de Ticket de Dúvida</h2>
-          <form id="formTicket">
-              <label for="nome">Nome:</label>
-              <input type="text" name="nome_aluno" id="nome_aluno" required>
-
-              <label for="cpf">CPF:</label>
-              <input type="text" name="cpf" id="cpf" maxlength="14" required />
-
-              <label for="tipo_vinculo">Tipo de Vínculo:</label>
-              <select name="tipo_vinculo" id="tipo_vinculo" required>
-                  <option value="">Selecione...</option>
-                  <option value="Aluno">Aluno</option>
-                  <option value="Ex-aluno">Ex-aluno</option>
-                  <option value="Comunidade externa">Comunidade externa</option>
-              </select>
-
-              <label for="raEnviar">RA:</label>
-              <input type="text" name="ra" id="raEnviar" inputmode="numeric" placeholder="Digite aqui o seu RA" />
-
-              <label for="email">E-mail:</label>
-              <input type="email" name="email" id="email" required>
-
-              <label>Curso:</label>
-              <div class="radio-group">
-                  <label><input type="radio" name="curso" value="Logística Aeroportuária"> Logística Aeroportuária</label>
-                  <label><input type="radio" name="curso" value="Logística Tarde"> Logística – Tarde</label>
-                  <label><input type="radio" name="curso" value="Logística Noite"> Logística – Noite</label>
-                  <label><input type="radio" name="curso" value="Gestão Empresarial (EAD)"> Gestão Empresarial (EAD)</label>
-                  <label><input type="radio" name="curso" value="Análise e Desenvolvimento de Sistemas"> Análise e Desenvolvimento de Sistemas</label>
-                  <label><input type="radio" name="curso" value="Comércio Exterior"> Comércio Exterior</label>
-                  <label><input type="radio" name="curso" value="Gestão da Produção Industrial"> Gestão da Produção Industrial</label>
-              </div>
-
-              <div class="separator"></div><h3>Escolha a categoria de sua dúvida:</h3>
-              <div class="categorias-faq">
-              <label><input type="radio" name="categoria" value="matricula_trancamento" required> Matrícula e Trancamento</label>
-              <label><input type="radio" name="categoria" value="documentos_emissao"> Documentos e Emissão</label>
-              <label><input type="radio" name="categoria" value="passe_escolar"> Passe Escolar</label>
-              <label><input type="radio" name="categoria" value="estagio"> Estágio</label>
-              <label><input type="radio" name="categoria" value="gerenciamento_curso" required> Gerenciamento do Curso</label>
-              <label><input type="radio" name="categoria" value="outros"> Outros</label>
-              </div>
-
-              <div id="faq-container"></div>
-
-              <label for="assunto">Assunto:</label>
-              <textarea name="assunto" id="assunto" required disabled></textarea>
-
-              <input type="submit" value="Enviar Ticket">
-          </form>
+    <div id="tabEnviar" class="tabcontent active">
+      <h2>Dúvidas Frequentes</h2>
+      
+      <div class="faq-section">
+        <div class="faq-categorias">
+          <div class="faq-categoria" data-categoria="matricula_trancamento">
+            <h4>Matrícula e Trancamento</h4>
+            <div class="faq-perguntas" style="display:none;"></div>
+          </div>
+          <div class="faq-categoria" data-categoria="documentos_emissao">
+            <h4>Documentos e Emissão</h4>
+            <div class="faq-perguntas" style="display:none;"></div>
+          </div>
+          <div class="faq-categoria" data-categoria="passe_escolar">
+            <h4>Passe Escolar</h4>
+            <div class="faq-perguntas" style="display:none;"></div>
+          </div>
+          <div class="faq-categoria" data-categoria="estagio">
+            <h4>Estágio</h4>
+            <div class="faq-perguntas" style="display:none;"></div>
+          </div>
+          <div class="faq-categoria" data-categoria="gerenciamento_curso">
+            <h4>Gerenciamento do Curso</h4>
+            <div class="faq-perguntas" style="display:none;"></div>
+          </div>
+          <div class="faq-categoria" data-categoria="outros">
+            <h4>Outros</h4>
+            <div class="faq-perguntas" style="display:none;"></div>
+          </div>
+        </div>
       </div>
-      <!--<h2>Perguntas Frequentes</h2> <div class="faq-item">
-            <p class="pergunta"><strong>Pergunta 1:</strong></p>
-            <p class="resposta">Resposta 1</p>
-        </div>
-        <div class="faq-item">
-            <p class="pergunta"><strong>Pergunta 2:</strong></p>
-            <p class="resposta">Resposta 2</p>
-        </div>
-        <div class="faq-item">
-            <p class="pergunta"><strong>Pergunta 3:</strong></p>
-            <p class="resposta">Resposta 3</p>
-        </div>
-    </div> -->
 
-      <div id="tabBuscar" class="tabcontent">
-          <h2>Buscar Resposta</h2>
+      <div class="separator"></div>
+      
+      <div class="ticket-cta">
+        <p>Ainda não teve sua dúvida respondida?</p>
+        <button id="mostrarFormularioTicket">Clique aqui para enviar um ticket de dúvidas para a secretaria</button>
+      </div>
+
+      <form id="formTicket" class="form-container">
+        <div class="form-box">
+          <div class="form-header">
+            <h3>Formulário de Ticket</h3>
+            <button type="button" class="close-form">✕</button>
+          </div>
+          
+          <label for="nome">Nome:</label>
+          <input type="text" name="nome_aluno" id="nome_aluno" required>
+
+          <label for="cpf">CPF:</label>
+          <input type="text" name="cpf" id="cpf" maxlength="14" required />
+
+          <label for="tipo_vinculo">Tipo de Vínculo:</label>
+          <select name="tipo_vinculo" id="tipo_vinculo" required>
+            <option value="">Selecione...</option>
+            <option value="Aluno">Aluno</option>
+            <option value="Ex-aluno">Ex-aluno</option>
+            <option value="Comunidade externa">Comunidade externa</option>
+          </select>
+
+          <label for="raEnviar">RA:</label>
+          <input type="text" name="ra" id="raEnviar" inputmode="numeric" placeholder="Digite aqui o seu RA" />
+
+          <label for="email">E-mail:</label>
+          <input type="email" name="email" id="email" required>
+
+          <label for="curso">Curso:</label>
+          <select name="curso" id="curso" required>
+            <option value="">-- Selecione seu curso --</option>
+            <option value="Logística Aeroportuária">Logística Aeroportuária</option>
+            <option value="Logística Tarde">Logística - Tarde</option>
+            <option value="Logística Noite">Logística - Noite</option>
+            <option value="Gestão Empresarial (EAD)">Gestão Empresarial (EAD)</option>
+            <option value="Análise e Desenvolvimento de Sistemas">Análise e Desenvolvimento de Sistemas</option>
+            <option value="Comércio Exterior">Comércio Exterior</option>
+            <option value="Gestão da Produção Industrial">Gestão da Produção Industrial</option>
+          </select>
+
+          <label for="categoria">Categoria da Dúvida:</label>
+          <select name="categoria" id="categoria" required>
+            <option value="">-- Selecione --</option>
+            <option value="matricula_trancamento">Matrícula e Trancamento</option>
+            <option value="documentos_emissao">Documentos e Emissão</option>
+            <option value="passe_escolar">Passe Escolar</option>
+            <option value="estagio">Estágio</option>
+            <option value="gerenciamento_curso">Gerenciamento do Curso</option>
+            <option value="outros">Outros</option>
+          </select>
+
+          <label for="assunto">Assunto:</label>
+          <textarea name="assunto" id="assunto" required></textarea>
+
+          <input type="submit" value="Enviar Ticket">
+        </div>
+      </form>
+    </div>
+
+    <div id="tabBuscar" class="tabcontent">
+      <div class="content-box">
+        <h2>Buscar Resposta</h2>
+        <div class="form-group">
           <label for="cpfBuscar">Digite o CPF:</label>
           <input type="text" maxlength="14" id="cpfBuscar" placeholder="Digite aqui seu CPF" />
           <button id="btnBuscar">Buscar</button>
+        </div>
 
-          <div class="separator"></div>
-          <div id="resultadoContainer" class="resposta-container" style="display: none;">
-              <div>
-                  <h3>Resposta:</h3>
-                  <div id="respostaResultado" class="caixa-conteudo"></div>
-              </div>
-
-              <div>
-                  <h3>Histórico de Perguntas e Respostas</h3>
-                  <div id="historicoResultado" class="caixa-conteudo"></div>
-              </div>
+        <div class="separator"></div>
+        <div id="resultadoContainer" class="resposta-container" style="display: none;">
+          <div>
+            <h3>Resposta mais recente:</h3>
+            <div id="respostaResultado" class="caixa-conteudo"></div>
           </div>
-      </div>
 
-      <div id="tabSolicitarDoc" class="tabcontent">
-          <h2>Solicitar Documentos</h2>
-          <form id="formRequerimento">
-              <label for="raDocumento">Nº de Matrícula (RA):</label>
-              <input type="text" id="ra" name="ra">
-
-              <label for="foneContato">Fone para Contato:</label>
-              <input type="text" id="telefone" name="telefone">
-
-              <label>Curso:</label>
-              <div class="radio-group">
-                  <label><input type="radio" name="curso" value="Logística Aeroportuária"> Logística Aeroportuária</label>
-                  <label><input type="radio" name="curso" value="Logística Tarde"> Logística – Tarde</label>
-                  <label><input type="radio" name="curso" value="Logística Noite"> Logística – Noite</label>
-                  <label><input type="radio" name="curso" value="Gestão Empresarial (EAD)"> Gestão Empresarial (EAD)</label>
-                  <label><input type="radio" name="curso" value="Análise e Desenvolvimento de Sistemas"> Análise e Desenvolvimento de Sistemas</label>
-                  <label><input type="radio" name="curso" value="Comércio Exterior"> Comércio Exterior</label>
-                  <label><input type="radio" name="curso" value="Gestão da Produção Industrial"> Gestão da Produção Industrial</label>
-              </div>
-
-              <label for="nomeDocumento">Nome:</label>
-              <input type="text" id="nome" name="nome">
-
-              <label for="cpfDoc">CPF:</label>
-              <input type="text" name="cpf" id="cpfDoc" maxlength="14" required />
-
-              <label for="rgDocumento">RG:</label>
-              <input type="text" id="rg" name="rg">
-
-              <label for="emailDocumento">E-mail:</label>
-              <input type="email" id="email" name="email">
-
-              <label for="documentoSelecionado">Selecione o Documento Solicitado:</label>
-              <select id="nome_doc" name="nome_doc">
-                  <option value="">-- Selecione --</option>
-                  <option value="Certificado de Conclusão de curso">Certificado de Conclusão de curso</option>
-                  <option value="Declaração de Conclusão de Curso">Declaração de Conclusão de Curso</option>
-                  <option value="Histórico Escolar">Histórico Escolar</option>
-                  <option value="Conteúdo Programático">Conteúdo Programático</option>
-                  <option value="Carteira de Identidade Escolar (RA)">Carteira de Identidade Escolar (RA)</option>
-              </select>
-
-              <input type="submit" value="Solicitar Documentos">
-          </form>
-
-          <div class="separator"></div> <h3>Prazos estimados:</h3>
-          <div class="document-deadlines">
-              <p><strong>Histórico Escolar:</strong> 3 dias úteis</p>
-              <p><strong>Carteira de Identidade Escolar (RA):</strong> 5 dias úteis</p>
-              <p><strong>Conteúdo Programático:</strong> 30 dias úteis</p>
-              <p><strong>Declaração de Conclusão de Curso:</strong> 3 dias úteis</p>
-              <p><strong>Certificado de Conclusão de curso:</strong> 5 dias úteis</p>
+          <div>
+            <h3>Histórico:</h3>
+            <div id="historicoResultado" class="caixa-conteudo"></div>
           </div>
+        </div>
       </div>
+    </div>
 
+    <div id="tabSolicitarDoc" class="tabcontent">
+      <div class="content-box">
+        <h2>Solicitar Documentos</h2>
+        <form id="formRequerimento">
+          <label for="raDocumento">Nº de Matrícula (RA):</label>
+          <input type="text" id="ra" name="ra">
+
+          <label for="foneContato">Fone para Contato:</label>
+          <input type="text" id="telefone" name="telefone">
+
+          <label for="cursoDoc">Curso:</label>
+          <select id="cursoDoc" name="curso" required>
+            <option value="">-- Selecione seu curso --</option>
+            <option value="Logística Aeroportuária">Logística Aeroportuária</option>
+            <option value="Logística Tarde">Logística – Tarde</option>
+            <option value="Logística Noite">Logística – Noite</option>
+            <option value="Gestão Empresarial (EAD)">Gestão Empresarial (EAD)</option>
+            <option value="Análise e Desenvolvimento de Sistemas">Análise e Desenvolvimento de Sistemas</option>
+            <option value="Comércio Exterior">Comércio Exterior</option>
+            <option value="Gestão da Produção Industrial">Gestão da Produção Industrial</option>
+          </select>
+
+          <label for="nomeDocumento">Nome:</label>
+          <input type="text" id="nome" name="nome">
+
+          <label for="cpfDoc">CPF:</label>
+          <input type="text" name="cpf" id="cpfDoc" maxlength="14" required />
+
+          <label for="rgDocumento">RG:</label>
+          <input type="text" id="rg" name="rg">
+
+          <label for="emailDocumento">E-mail:</label>
+          <input type="email" id="email" name="email">
+
+          <label for="documentoSelecionado">Selecione o Documento Solicitado:</label>
+          <select id="nome_doc" name="nome_doc" required>
+            <option value="">-- Selecione --</option>
+            <option value="Certificado de Conclusão de curso">Certificado de Conclusão de curso</option>
+            <option value="Declaração de Conclusão de Curso">Declaração de Conclusão de Curso</option>
+            <option value="Histórico Escolar">Histórico Escolar</option>
+            <option value="Conteúdo Programático">Conteúdo Programático</option>
+            <option value="Carteira de Identidade Escolar (RA)">Carteira de Identidade Escolar (RA)</option>
+          </select>
+
+          <input type="submit" value="Solicitar Documentos">
+        </form>
+
+        <div class="separator"></div>
+        <div class="document-deadlines">
+          <h3>Prazos estimados:</h3>
+          <p><strong>Histórico Escolar:</strong> 3 dias úteis</p>
+          <p><strong>Carteira de Identidade Escolar (RA):</strong> 5 dias úteis</p>
+          <p><strong>Conteúdo Programático:</strong> 30 dias úteis</p>
+          <p><strong>Declaração de Conclusão de Curso:</strong> 3 dias úteis</p>
+          <p><strong>Certificado de Conclusão de curso:</strong> 5 dias úteis</p>
+        </div>
+      </div>
+    </div>
   </div>
-      <script src="script.js"></script>
-    </body>
-    </html>
+  <script src="script.js"></script>
+</body>
+</html>

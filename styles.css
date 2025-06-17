@@ -1,15 +1,12 @@
-
-
 body {
   font-family: Verdana, sans-serif;
-  /* Degradê de vermelho para preto no background, com preto embaixo */
-  background: linear-gradient(to top, rgb(155, 13, 13), rgb(178, 0, 0) );
+  background: linear-gradient(to top, rgb(155, 13, 13), rgb(178, 0, 0));
   margin: 0;
   padding: 0;
   display: flex;
   flex-direction: column;
-  align-items: center; /* Centraliza horizontalmente logo e container */
-  min-height: 100vh; /* Garante que o body ocupa a altura total da viewport */
+  align-items: center;
+  min-height: 100vh;
 }
 
 .container {
@@ -17,21 +14,20 @@ body {
   width: 90%;
   background: #fff;
   padding: 30px;
-  /* As bordas superiores são removidas para que as abas se encaixem */
   border-top-left-radius: 8px;
   border-top-right-radius: 8px;
-  border-bottom-left-radius: 10px; /* Mantém o arredondamento inferior */
-  border-bottom-right-radius: 10px; /* Mantém o arredondamento inferior */
+  border-bottom-left-radius: 10px;
+  border-bottom-right-radius: 10px;
   box-shadow: 0 0 10px rgba(0,0,0,0.2);
-  margin-top: 0; /* Garante que o container esteja imediatamente abaixo das abas */
-  margin-bottom: 50px; /* Espaço na parte inferior da página */
+  margin-top: 0;
+  margin-bottom: 50px;
 }
 
 .logo {
-  max-width: 300px; /* Tamanho da logo aumentado */
+  max-width: 300px;
   height: auto;
-  margin-top: 50px; /* Espaço do topo da página */
-  margin-bottom: 0px; /* Espaço entre a logo e as abas/container */
+  margin-top: 50px;
+  margin-bottom: 0px;
   -webkit-user-drag: none;
 }
 
@@ -42,20 +38,22 @@ body {
 
   .resposta-container {
     flex-direction: column;
+    width: 100%;
+    box-sizing: border-box;
   }
 
   .resposta-texto,
   .caixa-conteudo {
+    hyphens: auto; /* Hifenização automática */
     width: 100%;
+    max-width: 100%;
+    word-break: break-word;
   }
 }
 
 /* abas */
-/* ... (Seus estilos body, container, logo existentes) ... */
-
-/* abas */
 .tab {
-  display: flex; /* Já está presente */
+  display: flex;
   overflow: hidden;
   width: 90%;
   max-width: 650px;
@@ -78,20 +76,10 @@ body {
   transition: 0.3s;
   font-size: 16px;
   border-bottom: 1px solid #ccc;
-  flex-grow: 1; /* Adicione esta linha para que os botões preencham o espaço disponível */
-  text-align: center; /* Opcional: Centraliza o texto dentro dos botões expandidos */
+  flex-grow: 1;
+  text-align: center;
 }
 
-/* Arredonda as quinas superiores das abas individuais */
-.tab button:first-child {
-  border-top-left-radius: 8px;
-}
-
-.tab button:last-child {
-  border-top-right-radius: 8px;
-}
-
-/* Arredonda as quinas superiores das abas individuais */
 .tab button:first-child {
   border-top-left-radius: 8px;
 }
@@ -108,7 +96,7 @@ body {
 .tab button.active {
   background-color: rgb(178, 0, 0);
   color: white;
-  border-bottom-color: rgb(178, 0, 0); /* Esconde a borda inferior da aba ativa */
+  border-bottom-color: rgb(178, 0, 0);
 }
 
 /* conteúdo das abas */
@@ -119,12 +107,22 @@ body {
   display: block;
 }
 
+/* Caixas de conteúdo */
+.content-box {
+  background-color: #f9f9f9;
+  border-radius: 6px;
+  padding: 20px;
+  margin-bottom: 20px;
+}
+
 /* formulário */
 label {
   display: block;
   margin-top: 15px;
   font-weight: bold;
+  color: #555;
 }
+
 input[type="text"],
 input[type="email"],
 input[type="number"],
@@ -134,15 +132,20 @@ textarea {
   padding: 10px;
   margin-top: 5px;
   border-radius: 6px;
-  border: 1px solid #ccc;
+  border: 1px solid #ddd;
   box-sizing: border-box;
   font-size: 14px;
+  background-color: #fff;
 }
+
 textarea {
   resize: vertical;
   min-height: 80px;
 }
-input[type="submit"], button#btnBuscar {
+
+input[type="submit"], 
+button#btnBuscar,
+button#mostrarFormularioTicket {
   margin-top: 25px;
   width: 100%;
   background-color: rgb(178, 0, 0);
@@ -152,12 +155,14 @@ input[type="submit"], button#btnBuscar {
   border: none;
   border-radius: 6px;
   cursor: pointer;
+  transition: background-color 0.3s;
 }
-input[type="submit"]:hover, button#btnBuscar:hover {
+
+input[type="submit"]:hover, 
+button#btnBuscar:hover,
+button#mostrarFormularioTicket:hover {
   background-color: rgb(150, 0, 0);
 }
-
-
 
 /* resposta e histórico */
 .resposta-container {
@@ -166,18 +171,238 @@ input[type="submit"]:hover, button#btnBuscar:hover {
   gap: 20px;
   margin-top: 20px;
 }
+
 .resposta-texto,
 .caixa-conteudo {
   width: 100%;
 }
+
 .caixa-conteudo {
   max-height: 300px;
   overflow-y: auto;
   border: 1px solid #ccc;
   padding: 10px;
-  background: #f9f9f9;
+  background: #fff;
 }
+
 .separator {
-  border-top: 1px solid #ccc;
-  margin-top: 20px;
+  border-top: 1px solid #eee;
+  margin: 20px 0;
+}
+
+/* Estilos para a seção de FAQ */
+.faq-section {
+  margin-bottom: 20px;
+}
+
+.faq-categorias {
+  margin-top: 15px;
+}
+
+.faq-categoria {
+  background-color: #f5f5f5;
+  border-radius: 6px;
+  padding: 10px 15px;
+  margin-bottom: 10px;
+  cursor: pointer;
+  transition: all 0.3s;
+  position: relative;
+}
+
+.faq-categoria:hover {
+  background-color: #e9e9e9;
+}
+
+.faq-categoria h4 {
+  margin: 0;
+  color: #b20000;
+  padding-right: 20px;
+}
+
+.faq-categoria h4::after {
+  content: "▸";
+  position: absolute;
+  right: 15px;
+  top: 10px;
+  transition: transform 0.3s;
+}
+
+.faq-categoria.active h4::after {
+  transform: rotate(90deg);
+}
+
+.faq-perguntas {
+  padding: 10px 0 0 10px;
+  display: none;
+}
+
+.faq-item {
+  margin-bottom: 15px;
+  padding-bottom: 15px;
+  border-bottom: 1px solid #eee;
+}
+
+.faq-item:last-child {
+  border-bottom: none;
+}
+
+.pergunta {
+  font-weight: bold;
+  color: #333;
+  margin-bottom: 5px;
+}
+
+.resposta {
+  color: #555;
+  line-height: 1.5;
+}
+
+/* Estilo para o CTA do ticket */
+.ticket-cta {
+  text-align: center;
+  margin: 25px 0;
+  padding: 15px;
+  background-color: #f9f9f9;
+  border-radius: 6px;
+  transition: all 0.3s ease;
+}
+
+/* Container do formulário */
+.form-container {
+  max-height: 0;
+  overflow: hidden;
+  opacity: 0;
+  transition: all 0.4s ease;
+  margin: 0;
+}
+
+.form-container.visible {
+  max-height: 1500px;
+  opacity: 1;
+  margin: 25px 0;
+}
+
+.form-box {
+  background-color: #f9f9f9;
+  border-radius: 6px;
+  padding: 20px;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+}
+
+.form-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 15px;
+}
+
+.close-form {
+  background: none;
+  border: none;
+  font-size: 20px;
+  cursor: pointer;
+  color: #999;
+  padding: 5px;
+}
+
+.close-form:hover {
+  color: #b20000;
+}
+
+/* Estilo para a mensagem pós-envio */
+.ticket-success-message {
+  text-align: center;
+  padding: 15px;
+  background-color: #f8f9fa;
+  border-radius: 6px;
+  border-left: 4px solid #b20000;
+}
+
+.ticket-success-message p {
+  margin-bottom: 15px;
+  color: #333;
+}
+
+.link-buscar-resposta {
+  color: #b20000;
+  font-weight: bold;
+  text-decoration: none;
+}
+
+.link-buscar-resposta:hover {
+  text-decoration: underline;
+}
+
+#novoTicket {
+  background-color: #b20000;
+  color: white;
+  border: none;
+  padding: 10px 15px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 14px;
+  margin-top: 10px;
+}
+
+#novoTicket:hover {
+  background-color: #8a0000;
+}
+
+/* Estilo para grupos de formulário */
+.form-group {
+  background-color: #f9f9f9;
+  border-radius: 6px;
+  padding: 15px;
+  margin-bottom: 15px;
+}
+
+/* Prazos de documentos */
+.document-deadlines {
+  background-color: #f9f9f9;
+  border-radius: 6px;
+  padding: 15px;
+}
+
+.document-deadlines p {
+  margin: 8px 0;
+}
+
+/*historico*/
+/* Ajustes para o container do histórico */
+.caixa-conteudo {
+    max-height: 300px;
+    overflow-y: auto;
+    padding: 15px;
+    background: #fff;
+    border: 1px solid #ddd;
+    border-radius: 6px;
+    word-break: break-word; /* Quebra palavras longas */
+    overflow-x: hidden; /* Impede vazamento horizontal */
+    box-sizing: border-box; /* Considera padding no cálculo da largura */
+}
+
+/* Estilo para cada item do histórico */
+#historicoResultado p {
+    margin: 0 0 15px 0;
+    padding: 10px;
+    background: #f9f9f9;
+    border-left: 3px solid #b20000;
+    border-radius: 0 4px 4px 0;
+    word-break: break-word; /* Quebra de palavras longas */
+    white-space: pre-wrap; /* Mantém quebras de linha mas quebra palavras */
+    overflow-wrap: break-word; /* Alternativa para word-break */
+}
+
+/* Remove a margem do último parágrafo */
+#historicoResultado p:last-child {
+    margin-bottom: 0;
+}
+
+/* Estilo para o separador */
+#historicoResultado hr {
+    border: 0;
+    height: 1px;
+    background: #eee;
+    margin: 10px 0;
+    width: 100%;
 }
