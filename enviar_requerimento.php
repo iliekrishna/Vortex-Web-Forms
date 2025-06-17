@@ -2,15 +2,15 @@
 header('Content-Type: application/json');
 header('Access-Control-Allow-Origin: *');
 
-// Configurações do banco de dados
-$host = 'localhost';
-$db = 'fatec_solicitacoes';
-$user = 'root';
-$pass = 'Patinhoborrachudo123';
+// Configuraï¿½ï¿½es do banco de dados
+$host = '162.241.40.214';
+$db = 'miltonb_fatec_solicitacoes';
+$user = 'miltonb_userVortex';
+$pass = 'gWLQqb~dRO0M';
 $charset = 'utf8mb4';
 
 try {
-    // Conexão com o banco usando PDO
+    // Conexï¿½o com o banco usando PDO
     $dsn = "mysql:host=$host;dbname=$db;charset=$charset";
     $pdo = new PDO($dsn, $user, $pass, [
         PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION
@@ -24,20 +24,21 @@ try {
     exit;
 }
 
-// Limpa os dados do formulário
-$RADoc                    = trim($_POST['RADoc'] ?? '');
+// Limpa os dados do formulï¿½rio
+$ra                       = trim($_POST['ra'] ?? '');
 $telefone                 = trim($_POST['telefone'] ?? '');
-$cursoDoc                 = trim($_POST['cursoDoc'] ?? '');
-$nomeDoc                  = trim($_POST['nomeDoc'] ?? '');
-$RG                       = trim($_POST['RG'] ?? '');
-$emailDoc                 = trim($_POST['emailDoc'] ?? '');
-$documento_solicitado     = trim($_POST['documento_solicitado'] ?? '');
+$curso                    = trim($_POST['curso'] ?? '');
+$nome                     = trim($_POST['nome'] ?? '');
+$cpf                      = trim($_POST['cpf'] ?? '');
+$rg                       = trim($_POST['rg'] ?? '');
+$email                    = trim($_POST['email'] ?? '');
+$nome_doc                 = trim($_POST['nome_doc'] ?? '');
 
 
-// Validação dos campos
+// Validaï¿½ï¿½o dos campos
 if (
-    !$RADoc || !$telefone || !$cursoDoc|| !$nomeDoc ||
-    !$RG || !$emailDoc || !$documento_solicitado
+    !$ra || !$telefone || !$curso || !$nome || !$cpf ||
+    !$rg || !$email || !$nome_doc
 ) {
     echo json_encode([
         'sucesso' => false,
@@ -49,18 +50,19 @@ if (
 // Envia para o banco de dados
 try {
     $stmt = $pdo->prepare("
-        INSERT INTO requerimentos (RADoc, telefone, cursoDoc, nomeDoc, RG, emailDoc, documento_solicitado)
-        VALUES (:RADoc, :telefone, :cursoDoc, :nomeDoc, :RG, :emailDoc, :documento_solicitado)
+        INSERT INTO t_requerimentos (ra, telefone, curso, nome, cpf, rg, email, nome_doc)
+        VALUES (:ra, :telefone, :curso, :nome, :cpf, :rg, :email, :nome_doc)
     ");
 
     $stmt->execute([
-        ':RADoc' => $RADoc,
+        ':ra' => $ra,
         ':telefone' => $telefone,
-        ':cursoDoc' => $cursoDoc,
-        ':nomeDoc' => $nomeDoc,
-        ':RG' => $RG,
-        ':emailDoc' => $emailDoc,
-        ':documento_solicitado' => $documento_solicitado
+        ':curso' => $curso,
+        ':nome' => $nome,
+        ':cpf' => $cpf,
+        ':rg' => $rg,
+        ':email' => $email,
+        ':nome_doc' => $nome_doc
     ]);
 
     echo json_encode([

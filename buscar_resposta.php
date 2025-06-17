@@ -1,12 +1,12 @@
 <?php
 header('Content-Type: application/json');
-header('Access-Control-Allow-Origin: *'); // Permite requisições de qualquer origem (útil para testes locais)
+header('Access-Control-Allow-Origin: *');
 
 // Configurações do banco de dados
-$host = 'localhost';
-$db = 'fatec_solicitacoes';
-$user = 'root';
-$pass = 'Patinhoborrachudo123'; // Ajuste a senha conforme seu ambiente
+$host = '162.241.40.214';
+$db = 'miltonb_fatec_solicitacoes';
+$user = 'miltonb_userVortex';
+$pass = 'gWLQqb~dRO0M';
 $charset = 'utf8mb4';
 
 // Sanitização do CPF recebido
@@ -28,14 +28,29 @@ try {
         PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION
     ]);
 
-    // Consulta dos tickets associados ao CPF
-    $stmt = $pdo->prepare("SELECT assunto, resposta, data_resposta FROM tickets WHERE cpf = :cpf ORDER BY data_envio DESC");
-    $stmt->execute(['cpf' => $cpf]);
-    $resultados = $stmt->fetchAll(PDO::FETCH_ASSOC);
+    $historico = [];
+
+    // Consulta na tabela t_tickets
+    $stmt1 = $pdo->prepare("SELECT assunto AS titulo, resposta, data_resposta FROM t_tickets WHERE cpf = :cpf");
+    $stmt1->execute(['cpf' => $cpf]);
+    $resultados1 = $stmt1->fetchAll(PDO::FETCH_ASSOC);
+
+    // Consulta na tabela t_requerimentos
+    $stmt2 = $pdo->prepare("SELECT nome_doc AS titulo, resposta, data_resposta FROM t_requerimentos WHERE cpf = :cpf");
+    $stmt2->execute(['cpf' => $cpf]);
+    $resultados2 = $stmt2->fetchAll(PDO::FETCH_ASSOC);
+
+    // Junta os dois conjuntos de resultados
+    $historico = array_merge($resultados1, $resultados2);
+
+    // Ordena por data_resposta (mais recentes primeiro)
+    usort($historico, function ($a, $b) {
+        return strtotime($b['data_resposta']) - strtotime($a['data_resposta']);
+    });
 
     echo json_encode([
         'sucesso' => true,
-        'historico' => $resultados
+        'historico' => $historico
     ]);
 } catch (PDOException $e) {
     echo json_encode([

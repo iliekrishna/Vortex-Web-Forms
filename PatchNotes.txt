@@ -78,23 +78,4 @@ Declaração de Conclusão de Curso: 3 dias úteis
 Certificado de Conclusão de curso: 5 dias úteis
 
 =========================================================================
-
-Adicionado:
-	
-	- Aba de solicitação de documento
-		- Prazos estimados
-	- Logo branca, fundo degradê
-	- Removida aba de FAQ (conteúdo foi pra aba de tickets)
-	- Mudança no lugar das abas
-
-=========================================================================
-
-Javascript: id do formulário de ticket alterado para formTicket e o de requerimento para formRequerimento
-
-adicionado 
-
-         - Envio de requerimento (javascript)
-         - enviar_requerimento.php
-         
-
- 
+        
