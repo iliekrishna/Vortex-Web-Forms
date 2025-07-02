@@ -13,6 +13,22 @@ document.addEventListener('DOMContentLoaded', () => {
       document.getElementById(tabId).classList.add('active');
     });
   });
+    // === máscara no nome ===
+
+    function aplicarMascaraNomeComValidacao(id) {
+        const input = document.getElementById(id);
+        if (!input) return;
+
+        input.addEventListener('input', () => {
+            input.value = input.value
+                .replace(/[^A-Za-zÀ-ÖØ-öø-ÿ'\-\s]/g, '') // remove caracteres inválidos
+                .replace(/\s{2,}/g, ' ')                // evita espaços duplos
+                .trimStart();                           // remove espaços no início
+        });
+    }
+    //aplicarMascaraNomeComValidacao('nome_aluno'); // Formulário de ticket
+    // aplicarMascaraNomeComValidacao('nome');       // Formulário de requerimento
+
 
   // === Função para aplicar máscara de CPF ===
   function aplicarMascaraCPF(id) {
@@ -34,6 +50,93 @@ document.addEventListener('DOMContentLoaded', () => {
       input.value = valor;
     });
   }
+
+    //=== Função para aplicar máscara de RG Ex :12.345.678-9 ===
+
+    function aplicarMascaraRG(id) {
+        const input = document.getElementById(id);
+        if (!input) return;
+
+        input.addEventListener('input', () => {
+            let valor = input.value.replace(/\D/g, '');
+
+
+            if (valor.length > 2 && valor.length <= 5) {
+                valor = valor.replace(/(\d{2})(\d+)/, '$1.$2');
+            } else if (valor.length > 5 && valor.length <= 8) {
+                valor = valor.replace(/(\d{2})(\d{3})(\d+)/, '$1.$2.$3');
+            } else if (valor.length > 8) {
+                valor = valor.replace(/(\d{2})(\d{3})(\d{3})(\d+)/, '$1.$2.$3-$4');
+            }
+
+            if (valor.length > 12) valor = valor.substring(0, 12);
+            input.value = valor;
+        });
+    }
+
+    function validarRG(rg) {
+        rg = rg.replace(/\D/g, ''); // remove pontos e hífen
+
+        // Exige 9 dígitos numéricos
+        return /^[0-9]{9}$/.test(rg);
+    }
+
+    // Mascara de telefone
+
+    function aplicarMascaraTelefone(id) {
+        const input = document.getElementById(id);
+        if (!input) return;
+
+        input.addEventListener('input', () => {
+            let valor = input.value.replace(/\D/g, '');
+
+            if (valor.length > 11) valor = valor.substring(0, 11);
+
+            if (valor.length > 10) {
+                // 9 dígitos
+                valor = valor.replace(/(\d{2})(\d{5})(\d{4})/, '($1) $2-$3');
+            } else if (valor.length > 6) {
+                valor = valor.replace(/(\d{2})(\d{4})(\d{0,4})/, '($1) $2-$3');
+            } else if (valor.length > 2) {
+                valor = valor.replace(/(\d{2})(\d{0,5})/, '($1) $2');
+            } else {
+                valor = valor.replace(/(\d*)/, '($1');
+            }
+
+            input.value = valor;
+        });
+    }
+
+    //Validar telefone
+    function validarTelefone(telefone) {
+        telefone = telefone.replace(/\D/g, ''); // remove tudo que não for número
+        // 10 ou 11 digitos
+        return telefone.length === 10 || telefone.length === 11;
+    }
+
+    function aplicarMascaraRA(id) {
+        const input = document.getElementById(id);
+        if (!input) return;
+
+        input.addEventListener('input', () => {
+            input.value = input.value.replace(/\D/g, ''); // Remove letras e símbolos
+        });
+    }
+
+    // validar ra
+    function validarRA(ra) {
+        ra = ra.replace(/\D/g, ''); // Remove tudo que não for número
+        return ra.startsWith('167') && ra.length === 13;
+    }
+    // aplicar mascara de ra
+    aplicarMascaraRA('ra');
+    aplicarMascaraRA('raEnviar');
+
+    // apliaca a mascar de telefone
+    aplicarMascaraTelefone('telefone');
+
+    // aplicar mascara de RG
+    aplicarMascaraRG('rg');
 
   // Aplica máscara em todos os campos CPF
   aplicarMascaraCPF('cpf');
@@ -198,7 +301,23 @@ document.addEventListener('DOMContentLoaded', () => {
       
       const formData = new FormData(formTicket);
       const cpfLimpo = cpfInput.value.replace(/\D/g, '');
-      formData.set('cpf', cpfLimpo);
+        formData.set('cpf', cpfLimpo);
+
+        //Validação do nome
+        const nome = document.getElementById('nome_aluno').value.trim();
+        const nomeValido = /^[A-Za-zÀ-ÖØ-öø-ÿ'\-\s]+$/.test(nome);
+
+        if (!nomeValido) {
+            alert('❌ Nome inválido. Verifique o nome digitado.');
+            return;
+        }
+
+        //Validação de ra
+        const raValido = validarRA(document.getElementById('raEnviar').value);
+        if (!raValido) {
+            alert('❌ RA inválido. Verifique os números digitados.');
+            return;
+        }
 
       fetch('enviar_ticket.php', { // Este é o envio do ticket, não do requerimento
         method: 'POST',
@@ -318,7 +437,36 @@ document.addEventListener('DOMContentLoaded', () => {
       if (!validarCPF(cpfInput.value)) {
         alert('❌ CPF inválido. Verifique os números digitados.');
         return;
-      }
+        }
+
+        //Validação do nome
+        const nomeReq = document.getElementById('nome').value.trim();
+        const nomeReqValido = /^[A-Za-zÀ-ÖØ-öø-ÿ'\-\s]+$/.test(nomeReq);
+
+        if (!nomeReqValido) {
+            alert('❌ Nome inválido. Verifique o nome digitado.');
+            return;
+        }
+
+        // validação do RG
+        if (!validarRG(document.getElementById('rg').value)) {
+            alert('❌ RG inválido. Verifique os números digitados.');
+            return;
+        }
+
+        //Validação de telefone
+        const telefoneValido = validarTelefone(document.getElementById('telefone').value);
+        if (!telefoneValido) {
+            alert('❌ Telefone inválido. Verifique os números digitados.');
+            return;
+        }
+
+
+        const ra = document.getElementById('ra').value;
+        if (!validarRA(ra)) {
+            alert('❌ RA inválido. Verifique os números digitados.');
+            return;
+        }
 
       // --- INÍCIO DA CORREÇÃO ---
       // Criamos um FormData vazio em vez de preenchê-lo automaticamente.
