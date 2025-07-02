@@ -182,21 +182,25 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   }
 
-  mostrarFormBtn.addEventListener('click', toggleForm);
-  closeFormBtn.addEventListener('click', toggleForm);
+  if(mostrarFormBtn) mostrarFormBtn.addEventListener('click', toggleForm);
+  if(closeFormBtn) closeFormBtn.addEventListener('click', toggleForm);
 
-  // Envio do formulário
+  // Envio do formulário de TICKET
   if (formTicket) {
     formTicket.addEventListener('submit', function(e) {
       e.preventDefault();
-      const formData = new FormData(formTicket);
-
-      if (!validarCPF(document.getElementById('cpf').value)) {
+      
+      const cpfInput = document.getElementById('cpf');
+      if (!validarCPF(cpfInput.value)) {
         alert('❌ CPF inválido. Verifique os números digitados.');
         return;
       }
+      
+      const formData = new FormData(formTicket);
+      const cpfLimpo = cpfInput.value.replace(/\D/g, '');
+      formData.set('cpf', cpfLimpo);
 
-      fetch('enviar_ticket.php', {
+      fetch('enviar_ticket.php', { // Este é o envio do ticket, não do requerimento
         method: 'POST',
         body: formData
       })
@@ -216,10 +220,11 @@ document.addEventListener('DOMContentLoaded', () => {
           `;
           
           document.getElementById('novoTicket').addEventListener('click', function() {
-            ctaDiv.innerHTML = `
+            const ctaOriginal = `
               <p>Ainda não teve sua dúvida respondida?</p>
-              <button id="mostrarFormularioTicket">Clique aqui para enviar um ticket</button>
+              <button id="mostrarFormularioTicket">Clique aqui para enviar um ticket de dúvidas para a secretaria</button>
             `;
+            ctaDiv.innerHTML = ctaOriginal;
             document.getElementById('mostrarFormularioTicket').addEventListener('click', toggleForm);
           });
 
@@ -240,15 +245,20 @@ document.addEventListener('DOMContentLoaded', () => {
   if (btnBuscar) {
     btnBuscar.addEventListener('click', () => {
       const cpf = document.getElementById('cpfBuscar').value.trim();
-      const cpfLimpo = cpf.replace(/\D/g, '');
-
+      
       if (!validarCPF(cpf)) {
         alert('Por favor, digite um CPF válido.');
         return;
       }
+      const cpfLimpo = cpf.replace(/\D/g, '');
 
-      document.getElementById('respostaResultado').innerHTML = 'Carregando...';
-      document.getElementById('historicoResultado').innerHTML = '';
+      const respostaContainer = document.getElementById('respostaResultado');
+      const historicoContainer = document.getElementById('historicoResultado');
+      const resultadoDiv = document.getElementById('resultadoContainer');
+
+      respostaContainer.innerHTML = 'Carregando...';
+      historicoContainer.innerHTML = '';
+      resultadoDiv.style.display = 'none';
 
       fetch(`buscar_resposta.php?cpf=${encodeURIComponent(cpfLimpo)}`)
         .then(resp => {
@@ -257,38 +267,43 @@ document.addEventListener('DOMContentLoaded', () => {
         })
         .then(data => {
           if (data.sucesso) {
-            if (data.historico.length === 0) {
-              document.getElementById('respostaResultado').innerHTML = 'Nenhuma resposta encontrada para este CPF.';
+            if (!data.historico || data.historico.length === 0) {
+              respostaContainer.innerHTML = 'Nenhum ticket ou solicitação de documento encontrado para este CPF.';
+              resultadoDiv.style.display = 'block';
               return;
             }
 
-            document.getElementById('resultadoContainer').style.display = 'block';
-            const ultima = data.historico[data.historico.length - 1];
+            resultadoDiv.style.display = 'block';
             
-            document.getElementById('respostaResultado').innerHTML = `
-              <strong>Assunto:</strong> ${ultima.titulo}<br>
-              <strong>Resposta:</strong> ${ultima.resposta || '<em>Sem resposta ainda.</em>'}
+            const ultima = data.historico[0];
+            const labelUltima = ultima.tipo === 'requerimento' ? 'Documento Pedido' : 'Assunto';
+            
+            respostaContainer.innerHTML = `
+              <p><strong>${labelUltima}:</strong> ${ultima.titulo || 'Não especificado'}</p>
+              <p><strong>Resposta:</strong> ${ultima.resposta || 'Ainda não respondido'}</p>
             `;
 
-            // Substitua esta parte no arquivo script.js
-            // Substitua a parte que gera o histórico por:
             let htmlHistorico = '';
             data.historico.forEach(item => {
+              const label = item.tipo === 'requerimento' ? 'Documento Pedido' : 'Assunto';
               htmlHistorico += `
                 <div class="historico-item">
-                  <p><strong>Assunto:</strong> ${item.titulo || 'Sem assunto'}</p>
-                  <p><strong>Resposta:</strong> ${item.resposta || '<em>Sem resposta ainda.</em>'}</p>
+                  <p><strong>${label}:</strong> ${item.titulo || 'Não especificado'}</p>
+                  <p><strong>Resposta:</strong> ${item.resposta || 'Ainda não respondido'}</p>
                 </div>
                 ${data.historico.indexOf(item) < data.historico.length - 1 ? '<hr>' : ''}
               `;
             });
-            document.getElementById('historicoResultado').innerHTML = htmlHistorico;
+            historicoContainer.innerHTML = htmlHistorico;
+
           } else {
-            document.getElementById('respostaResultado').innerHTML = 'Erro: ' + data.mensagem;
+            respostaContainer.innerHTML = 'Erro: ' + data.mensagem;
+            resultadoDiv.style.display = 'block';
           }
         })
         .catch(err => {
-          document.getElementById('respostaResultado').innerHTML = err.message;
+          respostaContainer.innerHTML = 'Ocorreu um erro: ' + err.message;
+          resultadoDiv.style.display = 'block';
         });
     });
   }
@@ -298,14 +313,32 @@ document.addEventListener('DOMContentLoaded', () => {
   if (formRequerimento) {
     formRequerimento.addEventListener('submit', function(e) {
       e.preventDefault();
-      const cpfValido = validarCPF(document.getElementById('cpfDoc').value);
       
-      if (!cpfValido) {
+      const cpfInput = document.getElementById('cpfDoc');
+      if (!validarCPF(cpfInput.value)) {
         alert('❌ CPF inválido. Verifique os números digitados.');
         return;
       }
+
+      // --- INÍCIO DA CORREÇÃO ---
+      // Criamos um FormData vazio em vez de preenchê-lo automaticamente.
+      const formData = new FormData();
+
+      // Pegamos cada valor do formulário de requerimento e adicionamos manualmente.
+      // Isso evita problemas com IDs duplicados e nos dá controle total.
+      formData.append('ra', document.getElementById('ra').value);
+      formData.append('telefone', document.getElementById('telefone').value);
+      formData.append('curso', document.getElementById('cursoDoc').value);
+      formData.append('nome', document.querySelector('#formRequerimento #nome').value);
+      formData.append('rg', document.getElementById('rg').value);
+      // Para o e-mail, usamos um seletor mais específico para pegar o campo certo.
+      formData.append('email', document.querySelector('#formRequerimento #email').value);
+      formData.append('nome_doc', document.getElementById('nome_doc').value);
       
-      const formData = new FormData(formRequerimento);
+      // Finalmente, pegamos o CPF, limpamos e adicionamos.
+      const cpfLimpo = cpfInput.value.replace(/\D/g, '');
+      formData.append('cpf', cpfLimpo);
+      // --- FIM DA CORREÇÃO ---
 
       fetch('enviar_requerimento.php', {
         method: 'POST',
