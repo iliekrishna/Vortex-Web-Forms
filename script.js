@@ -1,4 +1,22 @@
 document.addEventListener('DOMContentLoaded', () => {
+  
+  // Mostrar ou esconder campos RA/Curso conforme o tipo de vínculo
+  const tipoVinculoSelect = document.getElementById('tipo_vinculo');
+  const grupoAluno = document.getElementById('grupoAluno');
+
+  if (tipoVinculoSelect && grupoAluno) {
+    tipoVinculoSelect.addEventListener('change', function () {
+      const valor = this.value;
+      if (valor === 'Aluno' || valor === 'Ex-aluno') {
+        grupoAluno.classList.add('visible');
+      } else {
+        grupoAluno.classList.remove('visible');
+      }
+    });
+  }
+
+  
+  
   // === Troca de abas ===
   const tablinks = document.querySelectorAll('.tablinks');
   const tabcontents = document.querySelectorAll('.tabcontent');
@@ -23,7 +41,7 @@ document.addEventListener('DOMContentLoaded', () => {
             input.value = input.value
                 .replace(/[^A-Za-zÀ-ÖØ-öø-ÿ'\-\s]/g, '') // remove caracteres inválidos
                 .replace(/\s{2,}/g, ' ')                // evita espaços duplos
-                .trimStart();                           // remove espaços no início
+                .trim(); // remove espaço em branco no começo e final;                           
         });
     }
     //aplicarMascaraNomeComValidacao('nome_aluno'); // Formulário de ticket
@@ -504,4 +522,29 @@ document.addEventListener('DOMContentLoaded', () => {
         .catch(() => alert('❌ Ocorreu um erro ao tentar enviar o formulário.'));
     });
   }
+
+  // === Mostrar/ocultar botões de ajuda ===
+  const ajudaBotao = document.getElementById('ajudaBotao');
+  const ajudaTexto = document.getElementById('ajudaTexto');
+  
+  if (ajudaBotao && ajudaTexto) {
+    ajudaBotao.addEventListener('click', () => {
+      ajudaTexto.classList.toggle('visible');
+
+    });
+  }
+
+  const ajudaBotaoBuscar = document.getElementById('ajudaBotaoBuscar');
+  const ajudaTextoBuscar = document.getElementById('ajudaTextoBuscar');
+
+  if (ajudaBotaoBuscar && ajudaTextoBuscar) {
+    ajudaBotaoBuscar.addEventListener('click', () => {
+      ajudaTextoBuscar.classList.toggle('visible');
+    });
+  }
+
+
+
+
+
 });

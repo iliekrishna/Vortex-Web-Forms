@@ -64,6 +64,9 @@
           
           <label for="nome">Nome:</label>
           <input type="text" name="nome_aluno" id="nome_aluno" required>
+          
+          <label for="email">E-mail:</label>
+          <input type="email" name="email" id="email" required>
 
           <label for="cpf">CPF:</label>
           <input type="text" name="cpf" id="cpf" maxlength="14" required />
@@ -76,25 +79,26 @@
             <option value="Comunidade externa">Comunidade externa</option>
           </select>
 
-          <label for="raEnviar">RA:</label>
-          <input type="text" name="ra" id="raEnviar" inputmode="numeric" placeholder="Digite aqui o seu RA" />
+          <!-- Agrupar RA e Curso -->
+          <div id="grupoAluno" class = "form-container-grupo">
+            <label for="raEnviar">RA:</label>
+            <input type="text" name="ra" id="raEnviar" inputmode="numeric" placeholder="Digite aqui o seu RA" />
 
-          <label for="email">E-mail:</label>
-          <input type="email" name="email" id="email" required>
+            <label for="curso">Curso:</label>
+            <select name="curso" id="curso">
+              <option value="">-- Selecione seu curso --</option>
+              <option value="Logística Aeroportuária">Logística Aeroportuária</option>
+              <option value="Logística Tarde">Logística - Tarde</option>
+              <option value="Logística Noite">Logística - Noite</option>
+              <option value="Gestão Empresarial (EAD)">Gestão Empresarial (EAD)</option>
+              <option value="Análise e Desenvolvimento de Sistemas">Análise e Desenvolvimento de Sistemas</option>
+              <option value="Comércio Exterior">Comércio Exterior</option>
+              <option value="Gestão da Produção Industrial">Gestão da Produção Industrial</option>
+            </select>
+          </div>
 
-          <label for="curso">Curso:</label>
-          <select name="curso" id="curso">
-            <option value="">-- Selecione seu curso --</option>
-            <option value="Logística Aeroportuária">Logística Aeroportuária</option>
-            <option value="Logística Tarde">Logística - Tarde</option>
-            <option value="Logística Noite">Logística - Noite</option>
-            <option value="Gestão Empresarial (EAD)">Gestão Empresarial (EAD)</option>
-            <option value="Análise e Desenvolvimento de Sistemas">Análise e Desenvolvimento de Sistemas</option>
-            <option value="Comércio Exterior">Comércio Exterior</option>
-            <option value="Gestão da Produção Industrial">Gestão da Produção Industrial</option>
-          </select>
 
-          <label for="categoria">Categoria da Dúvida:</label>
+          <label for="categoria">Assunto:</label>
           <select name="categoria" id="categoria" required>
               <option value="">-- Selecione --</option>
               <option value="Matrícula e Trancamento">Matrícula e Trancamento</option>
@@ -105,7 +109,7 @@
               <option value="Outros">Outros</option>
           </select>
 
-          <label for="assunto">Assunto:</label>
+          <label for="assunto">Dúvida:</label>
           <textarea name="assunto" id="assunto" required></textarea>
 
           <input type="submit" value="Enviar Ticket">
@@ -115,7 +119,19 @@
 
     <div id="tabBuscar" class="tabcontent">
       <div class="content-box">
-        <h2>Buscar Resposta</h2>
+        <div class="titulo-documentos">
+          <h2>Buscar Resposta</h2>
+          <button id="ajudaBotaoBuscar" class="botao-prazos">Ajuda</button>
+        </div>
+        <div id="ajudaTextoBuscar">
+          <p>Digite seu CPF no campo abaixo e clique em "Buscar resposta".</p>
+          <p>Você verá sua solicitação mais recente e, abaixo, o histórico completo.</p>
+          <p>Certifique-se de digitar o CPF completo utilizado no formulário de envio de dúvida ou solicitação de documento. </p>
+        </div>
+
+
+
+
         <div class="form-group">
           <label for="cpfBuscar">Digite o CPF:</label>
           <input type="text" maxlength="14" id="cpfBuscar" placeholder="Digite aqui seu CPF" />
@@ -139,14 +155,48 @@
 
     <div id="tabSolicitarDoc" class="tabcontent">
       <div class="content-box">
-        <h2>Solicitar Documentos</h2>
+
+        <!-- Ìcone de dúvida da aba solicitar documento -->
+        <h2 class="titulo-documentos">
+          Solicitar Documentos
+          <button id="ajudaBotao" class="botao-prazos">Ajuda</button>
+        </h2>
+
+        <div id="ajudaTexto">
+          Preencha o formulário abaixo para solicitar os seguintes documentos:<br><br>
+          <strong>Histórico Escolar:</strong> 3 dias úteis<br>
+          <strong>Carteira de Identidade Escolar (RA):</strong> 5 dias úteis<br>
+          <strong>Conteúdo Programático:</strong> 30 dias úteis<br>
+          <strong>Declaração de Conclusão de Curso:</strong> 3 dias úteis<br>
+          <strong>Certificado de Conclusão de curso:</strong> 5 dias úteis <br><br>
+          Os seguintes documentos devem ser solicitados pela plataforma SIGA: <br><br>
+          <strong>Atestado de Matrícula Símples</strong> <br>
+          <strong>Atestado de Matrícula com Diciplinas</strong> <br>
+          <strong>Atestado de Previsão de Conclusão</strong> <br>
+          <strong>Atestado de Período</strong> <br>
+        </div>
+        
+        <!-- formulario requerimento -->
         <form id="formRequerimento">
-          <label for="raDocumento">Nº de Matrícula (RA):</label>
-          <input type="text" id="ra" name="ra">
+
+          <label for="nomeDocumento">Nome:</label>
+          <input type="text" id="nome" name="nome">
+
+          <label for="cpfDoc">CPF:</label>
+          <input type="text" name="cpf" id="cpfDoc" maxlength="14" required />
+          
+          <label for="emailDocumento">E-mail:</label>
+          <input type="email" id="email" name="email">
+
+          <label for="rgDocumento">RG:</label>
+          <input type="text" id="rg" name="rg">
 
           <label for="foneContato">Fone para Contato:</label>
           <input type="text" id="telefone" name="telefone">
-
+          
+          <label for="raDocumento">Nº de Matrícula (RA):</label>
+          <input type="text" id="ra" name="ra">
+          
           <label for="cursoDoc">Curso:</label>
           <select id="cursoDoc" name="curso" required>
             <option value="">-- Selecione seu curso --</option>
@@ -158,18 +208,6 @@
             <option value="Comércio Exterior">Comércio Exterior</option>
             <option value="Gestão da Produção Industrial">Gestão da Produção Industrial</option>
           </select>
-
-          <label for="nomeDocumento">Nome:</label>
-          <input type="text" id="nome" name="nome">
-
-          <label for="cpfDoc">CPF:</label>
-          <input type="text" name="cpf" id="cpfDoc" maxlength="14" required />
-
-          <label for="rgDocumento">RG:</label>
-          <input type="text" id="rg" name="rg">
-
-          <label for="emailDocumento">E-mail:</label>
-          <input type="email" id="email" name="email">
 
           <label for="documentoSelecionado">Selecione o Documento Solicitado:</label>
           <select id="nome_doc" name="nome_doc" required>

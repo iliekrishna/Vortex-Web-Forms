@@ -382,27 +382,139 @@ button#mostrarFormularioTicket:hover {
 }
 
 /* Estilo para cada item do histórico */
-#historicoResultado p {
-    margin: 0 0 15px 0;
-    padding: 10px;
-    background: #f9f9f9;
-    border-left: 3px solid #b20000;
-    border-radius: 0 4px 4px 0;
-    word-break: break-word; /* Quebra de palavras longas */
-    white-space: pre-wrap; /* Mantém quebras de linha mas quebra palavras */
-    overflow-wrap: break-word; /* Alternativa para word-break */
+.historico-item {
+  background-color: #f7f7f7;   /* Fundo clarinho */
+  padding: 15px 20px;
+  margin-bottom: 20px;         /* Espaço entre os blocos */
+  border-radius: 8px;          /* Bordas arredondadas */
+  box-shadow: 0 2px 5px rgba(0,0,0,0.05); /* Sombra leve */
+  border-left: 5px solid #b20000; /* Borda lateral vermelha */
 }
+
+.historico-item p {
+  margin: 0 0 10px 0;
+}
+
+.historico-item p:last-child {
+  margin-bottom: 0;
+}
+
+/* Se quiser tirar o <hr> */
+#historicoResultado hr {
+  display: none;
+}
+
+
 
 /* Remove a margem do último parágrafo */
 #historicoResultado p:last-child {
     margin-bottom: 0;
 }
 
-/* Estilo para o separador */
-#historicoResultado hr {
-    border: 0;
-    height: 1px;
-    background: #eee;
-    margin: 10px 0;
-    width: 100%;
+
+
+/*ícone de dúvida*/
+
+#ajudaIcon {
+  cursor: pointer;
+  background: #ccc;
+  border-radius: 50%;
+  width: 20px;
+  height: 20px;
+  font-weight: bold;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 14px;
+  transition: background 0.3s;
+  margin-left: auto; /* Garante que ele fique do lado direito */
+}
+
+#ajudaIcon:hover {
+  background: #999;
+}
+
+
+
+.titulo-documentos {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+/*Botão de mostrar prazos*/
+.botao-prazos {
+  background-color: #555555;
+  color: white;
+  border: none;
+  padding: 4px 10px;
+  font-size: 13px;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+  margin-left: auto; /* Garante que ele fique do lado direito */
+}
+
+.botao-prazos:hover {
+  background-color: rgb(178, 0, 0);
+}
+
+#ajudaTexto {
+  max-height: 0;
+  overflow: hidden;
+  opacity: 0;
+  background-color: #f9f9f9;
+  padding: 0 12px;
+  margin-top: 0;
+  border-left: 4px solid #007bff;
+  border-radius: 6px;
+  font-size: 14px;
+  line-height: 1.5;
+  transition: all 0.4s ease;
+}
+
+#ajudaTexto.visible {
+  max-height: 300px;
+  opacity: 1;
+  padding: 12px;
+  margin-top: 10px;
+}
+
+
+/*transição pra quando seleciona aluno ou exluno no ticket*/
+.form-container-grupo {
+  max-height: 0;
+  overflow: hidden;
+  opacity: 0;
+  transition: all 0.4s ease;
+  margin: 0;
+}
+
+.form-container-grupo.visible {
+  max-height: 500px; /* ajuste conforme o conteúdo */
+  opacity: 1;
+  margin: 15px 0;
+  margin-top: 5px;
+}
+
+/*Botão de ajuda da aba buscar*/
+#ajudaTextoBuscar {
+  max-height: 0;
+  overflow: hidden;
+  opacity: 0;
+  transition: all 0.4s ease;
+  background-color: #f9f9f9;
+  padding: 0 12px;
+  margin-top: 0;
+  border-left: 4px solid #007bff;
+  border-radius: 6px;
+  font-size: 14px;
+  line-height: 1.5;
+  box-sizing: border-box;
+}
+#ajudaTextoBuscar.visible {
+  max-height: 500px; /* ajuste conforme necessário */
+  opacity: 1;
+  padding: 12px;
+  margin-top: 10px;
 }
