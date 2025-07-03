@@ -2,18 +2,27 @@ document.addEventListener('DOMContentLoaded', () => {
   
   // Mostrar ou esconder campos RA/Curso conforme o tipo de vínculo
   const tipoVinculoSelect = document.getElementById('tipo_vinculo');
-  const grupoAluno = document.getElementById('grupoAluno');
+  const grupoAluno = document.getElementById('grupoAluno'); // Seu grupo com RA, Curso etc
+  const campoRA = document.getElementById('raEnviar');
 
-  if (tipoVinculoSelect && grupoAluno) {
-    tipoVinculoSelect.addEventListener('change', function () {
-      const valor = this.value;
-      if (valor === 'Aluno' || valor === 'Ex-aluno') {
-        grupoAluno.classList.add('visible');
-      } else {
-        grupoAluno.classList.remove('visible');
+  tipoVinculoSelect.addEventListener('change', function () {
+    const valor = this.value;
+
+    if (valor === 'Aluno' || valor === 'Ex-aluno') {
+      grupoAluno.classList.add('visible');  // mostra grupo RA, Curso...
+      if (campoRA) campoRA.required = true;  // RA obrigatório
+    } else if (valor === 'Comunidade externa') {
+      grupoAluno.classList.remove('visible'); // esconde grupo RA, Curso...
+      if (campoRA) {
+        campoRA.required = false;   // RA não obrigatório
+        campoRA.value = '';         // limpa valor
       }
-    });
-  }
+    } else {
+      grupoAluno.classList.remove('visible');
+      if (campoRA) campoRA.required = false;
+    }
+  });
+
 
   
   
@@ -331,11 +340,18 @@ document.addEventListener('DOMContentLoaded', () => {
         }
 
         //Validação de ra
-        const raValido = validarRA(document.getElementById('raEnviar').value);
-        if (!raValido) {
+        const tipoVinculo = document.getElementById('tipo_vinculo').value;
+        const raValor = document.getElementById('raEnviar').value.trim();
+
+        if (tipoVinculo === 'Aluno' || tipoVinculo === 'Ex-aluno') {
+          if (!validarRA(raValor)) {
             alert('❌ RA inválido. Verifique os números digitados.');
             return;
+          }
+        } else if (tipoVinculo === 'Comunidade externa') {
+          // RA pode ficar vazio, não valida
         }
+
 
       fetch('enviar_ticket.php', { // Este é o envio do ticket, não do requerimento
         method: 'POST',
@@ -413,7 +429,7 @@ document.addEventListener('DOMContentLoaded', () => {
             resultadoDiv.style.display = 'block';
             
             const ultima = data.historico[0];
-            const labelUltima = ultima.tipo === 'requerimento' ? 'Documento Pedido' : 'Assunto';
+            const labelUltima = ultima.tipo === 'requerimento' ? 'Documento Solicitado' : 'Assunto';
             
             respostaContainer.innerHTML = `
               <p><strong>${labelUltima}:</strong> ${ultima.titulo || 'Não especificado'}</p>
@@ -422,7 +438,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
             let htmlHistorico = '';
             data.historico.forEach(item => {
-              const label = item.tipo === 'requerimento' ? 'Documento Pedido' : 'Assunto';
+              const label = item.tipo === 'requerimento' ? 'Documento Solicitado' : 'Assunto';
               htmlHistorico += `
                 <div class="historico-item">
                   <p><strong>${label}:</strong> ${item.titulo || 'Não especificado'}</p>
