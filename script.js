@@ -432,9 +432,12 @@ document.addEventListener('DOMContentLoaded', () => {
             const labelUltima = ultima.tipo === 'requerimento' ? 'Documento Solicitado' : 'Assunto';
             
             respostaContainer.innerHTML = `
-              <p><strong>${labelUltima}:</strong> ${ultima.titulo || 'Não especificado'}</p>
-              <p><strong>Resposta:</strong> ${ultima.resposta || 'Ainda não respondido'}</p>
+              <div class="historico-item">
+                <p><strong>${labelUltima}:</strong> ${ultima.titulo || 'Não especificado'}</p>
+                <p><strong>Resposta:</strong> ${ultima.resposta || 'Ainda não respondido'}</p>
+              </div>
             `;
+
 
             let htmlHistorico = '';
             data.historico.forEach(item => {

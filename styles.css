@@ -177,13 +177,8 @@ button#mostrarFormularioTicket:hover {
   width: 100%;
 }
 
-.caixa-conteudo {
-  max-height: 300px;
-  overflow-y: auto;
-  border: 1px solid #ccc;
-  padding: 10px;
-  background: #fff;
-}
+
+
 
 .separator {
   border-top: 1px solid #eee;
@@ -373,9 +368,9 @@ button#mostrarFormularioTicket:hover {
     max-height: 300px;
     overflow-y: auto;
     padding: 15px;
-    background: #fff;
-    border: 1px solid #ddd;
-    border-radius: 6px;
+    background: #f9f9f9;
+    border: none;
+    border-radius: 0px;
     word-break: break-word; /* Quebra palavras longas */
     overflow-x: hidden; /* Impede vazamento horizontal */
     box-sizing: border-box; /* Considera padding no cálculo da largura */
@@ -383,7 +378,7 @@ button#mostrarFormularioTicket:hover {
 
 /* Estilo para cada item do histórico */
 .historico-item {
-  background-color: #f7f7f7;   /* Fundo clarinho */
+  background-color: #ffffff;   /* Fundo branco */
   padding: 15px 20px;
   margin-bottom: 20px;         /* Espaço entre os blocos */
   border-radius: 8px;          /* Bordas arredondadas */
