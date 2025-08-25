@@ -1,17 +1,5 @@
 {
-    "name": "angel/vortex-web-forms",
-    "autoload": {
-        "psr-4": {
-            "Angel\\VortexWebForms\\": "src/"
-        }
-    },
-    "authors": [
-        {
-            "name": "christoferoAngelo",
-            "email": "christoferoangelo@gmail.com"
-        }
-    ],
     "require": {
-        "phpoffice/phpspreadsheet": "^5.0"
+        "phpoffice/phpspreadsheet": "^2.0"
     }
 }

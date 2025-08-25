@@ -1,15 +1,18 @@
 <?php
-ini_set('display_errors', 0);
+// Desliga erros visíveis para não corromper o XLSX
 error_reporting(0);
+ini_set('display_errors', 0);
 
-require 'vendor/autoload.php';
+require __DIR__ . '/vendor/autoload.php';
+
 use PhpOffice\PhpSpreadsheet\Spreadsheet;
 use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
+use PhpOffice\PhpSpreadsheet\Writer\Csv;
 use PhpOffice\PhpSpreadsheet\Style\Fill;
 use PhpOffice\PhpSpreadsheet\Style\Border;
 use PhpOffice\PhpSpreadsheet\Style\Alignment;
 
-// Conexão com o banco de dados
+// Configuração do banco
 $host = '162.241.40.214';
 $db   = 'miltonb_fatec_solicitacoes';
 $user = 'miltonb_userVortex';
@@ -25,9 +28,11 @@ try {
     exit("Erro na conexão com o banco de dados.");
 }
 
-// Escolha da tabela: tickets ou requerimentos
-$tabela = $_GET['tabela'] ?? 'tickets';
+// Define tabela e formato
+$tabela  = $_GET['tabela']  ?? 'tickets';
+$formato = $_GET['formato'] ?? 'xlsx';
 
+// Consulta dados
 if ($tabela === 'tickets') {
     $stmt = $pdo->query("SELECT * FROM t_tickets");
     $dados = $stmt->fetchAll(PDO::FETCH_ASSOC);
@@ -38,11 +43,11 @@ if ($tabela === 'tickets') {
     $colunas = ['ID', 'RA', 'Telefone', 'Curso', 'Nome', 'CPF', 'RG', 'Email', 'Nome do Documento'];
 }
 
-// Criar planilha
+// Cria planilha
 $spreadsheet = new Spreadsheet();
 $sheet = $spreadsheet->getActiveSheet();
 
-// Cabeçalho: negrito, fundo cinza e alinhamento central
+// Cabeçalho
 $col = 'A';
 foreach ($colunas as $c) {
     $sheet->setCellValue($col.'1', $c);
@@ -53,9 +58,8 @@ foreach ($colunas as $c) {
     $sheet->getStyle($col.'1')->getAlignment()->setHorizontal(Alignment::HORIZONTAL_CENTER);
     $col++;
 }
-$ultimaColuna = chr(ord('A') + count($colunas) - 1);
 
-// Preencher dados
+// Preenche dados
 $row = 2;
 if ($tabela === 'tickets') {
     foreach ($dados as $d) {
@@ -84,25 +88,32 @@ if ($tabela === 'tickets') {
         $row++;
     }
 }
-$ultimaLinha = $row - 1;
 
-// Ajustar largura das colunas automaticamente
+// Descobre última célula
+$ultimaColuna = $sheet->getHighestColumn();
+$ultimaLinha  = $sheet->getHighestRow();
+
+// Ajusta largura
 foreach (range('A', $ultimaColuna) as $columnID) {
     $sheet->getColumnDimension($columnID)->setAutoSize(true);
 }
 
-// Adicionar bordas em todas as células
+// Bordas
 $sheet->getStyle("A1:{$ultimaColuna}{$ultimaLinha}")
-    ->getBorders()->getAllBorders()->setBorderStyle(Border::BORDER_THIN);
+      ->getBorders()->getAllBorders()->setBorderStyle(Border::BORDER_THIN);
 
-// Ativar filtros automáticos na primeira linha
-$sheet->setAutoFilter("A1:{$ultimaColuna}1");
+// Exporta
+$filename = $tabela.'_'.date('Y-m-d_H-i-s');
 
-// Forçar download
-header('Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
-header('Content-Disposition: attachment; filename="'.$tabela.'_'.date('Y-m-d_H-i-s').'.xlsx"');
-header('Cache-Control: max-age=0');
+if ($formato === 'csv') {
+    header('Content-Type: text/csv');
+    header("Content-Disposition: attachment; filename=\"{$filename}.csv\"");
+    $writer = new Csv($spreadsheet);
+} else {
+    header('Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
+    header("Content-Disposition: attachment; filename=\"{$filename}.xlsx\"");
+    $writer = new Xlsx($spreadsheet);
+}
 
-$writer = new Xlsx($spreadsheet);
 $writer->save('php://output');
 exit;
