@@ -23,9 +23,6 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   });
 
-
-  
-  
   // === Troca de abas ===
   const tablinks = document.querySelectorAll('.tablinks');
   const tabcontents = document.querySelectorAll('.tabcontent');
@@ -165,36 +162,36 @@ document.addEventListener('DOMContentLoaded', () => {
     // aplicar mascara de RG
     aplicarMascaraRG('rg');
 
-  // Aplica máscara em todos os campos CPF
-  aplicarMascaraCPF('cpf');
-  aplicarMascaraCPF('cpfBuscar');
-  aplicarMascaraCPF('cpfDoc');
+    // Aplica máscara em todos os campos CPF
+    aplicarMascaraCPF('cpf');
+    aplicarMascaraCPF('cpfBuscar');
+    aplicarMascaraCPF('cpfDoc');
 
-  // === Validação de CPF ===
-  function validarCPF(cpf) {
-    cpf = cpf.replace(/\D/g, '');
-    if (cpf.length !== 11 || /^(\d)\1{10}$/.test(cpf)) return false;
+    // === Validação de CPF ===
+    function validarCPF(cpf) {
+      cpf = cpf.replace(/\D/g, '');
+      if (cpf.length !== 11 || /^(\d)\1{10}$/.test(cpf)) return false;
 
-    let soma = 0;
-    for (let i = 0; i < 9; i++) {
-      soma += parseInt(cpf.charAt(i)) * (10 - i);
+      let soma = 0;
+      for (let i = 0; i < 9; i++) {
+        soma += parseInt(cpf.charAt(i)) * (10 - i);
+      }
+      let resto = 11 - (soma % 11);
+      let digito1 = resto >= 10 ? 0 : resto;
+
+      soma = 0;
+      for (let i = 0; i < 10; i++) {
+        soma += parseInt(cpf.charAt(i)) * (11 - i);
+      }
+      resto = 11 - (soma % 11);
+      let digito2 = resto >= 10 ? 0 : resto;
+
+      return cpf.charAt(9) == digito1 && cpf.charAt(10) == digito2;
     }
-    let resto = 11 - (soma % 11);
-    let digito1 = resto >= 10 ? 0 : resto;
 
-    soma = 0;
-    for (let i = 0; i < 10; i++) {
-      soma += parseInt(cpf.charAt(i)) * (11 - i);
-    }
-    resto = 11 - (soma % 11);
-    let digito2 = resto >= 10 ? 0 : resto;
-
-    return cpf.charAt(9) == digito1 && cpf.charAt(10) == digito2;
-  }
-
-  // === FAQ toggle ===
-  const faqCategorias = document.querySelectorAll('.faq-categoria');
-  const faqsPorCategoria = {
+    // === FAQ toggle ===
+    const faqCategorias = document.querySelectorAll('.faq-categoria');
+    const faqsPorCategoria = {
     documentos_emissao: [
       {
         pergunta: "Como faço para solicitar o atestado de matrícula?",
@@ -269,28 +266,28 @@ document.addEventListener('DOMContentLoaded', () => {
         resposta: "A seleção de novos ingressantes acontece semestralmente. As inscrições devem ser realizadas no site: https://vestibular.fatec.sp.gov.br/home/, e realizar a inscrição, seguindo as informações do Manual do Candidato."
       }
     ]
-  };
+    };
 
   // Carrega FAQs e adiciona eventos
-  faqCategorias.forEach(categoria => {
-    const categoriaId = categoria.dataset.categoria;
-    const perguntasContainer = categoria.querySelector('.faq-perguntas');
-    const faqs = faqsPorCategoria[categoriaId] || [];
-    
-    perguntasContainer.innerHTML = faqs.map(faq => `
-      <div class="faq-item">
-        <p class="pergunta">${faq.pergunta}</p>
-        <p class="resposta">${faq.resposta}</p>
-      </div>
-    `).join("");
+    faqCategorias.forEach(categoria => {
+      const categoriaId = categoria.dataset.categoria;
+      const perguntasContainer = categoria.querySelector('.faq-perguntas');
+      const faqs = faqsPorCategoria[categoriaId] || [];
+      
+      perguntasContainer.innerHTML = faqs.map(faq => `
+        <div class="faq-item">
+          <p class="pergunta">${faq.pergunta}</p>
+          <p class="resposta">${faq.resposta}</p>
+        </div>
+      `).join("");
 
-    categoria.addEventListener('click', function(e) {
-      if (e.target.closest('.faq-item')) return;
-      this.classList.toggle('active');
-      const perguntas = this.querySelector('.faq-perguntas');
-      perguntas.style.display = perguntas.style.display === 'none' ? 'block' : 'none';
+      categoria.addEventListener('click', function(e) {
+        if (e.target.closest('.faq-item')) return;
+        this.classList.toggle('active');
+        const perguntas = this.querySelector('.faq-perguntas');
+        perguntas.style.display = perguntas.style.display === 'none' ? 'block' : 'none';
+      });
     });
-  });
 
   // === Controle do formulário de ticket ===
   const formTicket = document.getElementById('formTicket');
@@ -391,6 +388,9 @@ document.addEventListener('DOMContentLoaded', () => {
       })
       .catch(() => alert('❌ Ocorreu um erro ao tentar enviar o formulário.'));
     });
+
+    
+
   }
 
   // === Busca por CPF ===
@@ -465,82 +465,188 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   // === Envio do requerimento ===
-  const formRequerimento = document.getElementById('formRequerimento');
-  if (formRequerimento) {
-    formRequerimento.addEventListener('submit', function(e) {
-      e.preventDefault();
-      
-      const cpfInput = document.getElementById('cpfDoc');
-      if (!validarCPF(cpfInput.value)) {
-        alert('❌ CPF inválido. Verifique os números digitados.');
-        return;
-        }
+  // === Envio do requerimento ===
+      const formRequerimento = document.getElementById('formRequerimento');
+      if (formRequerimento) {
+        formRequerimento.addEventListener('submit', function(e) {
+          e.preventDefault();
+          
+          const cpfInput = document.getElementById('cpfDoc');
+          if (!validarCPF(cpfInput.value)) {
+            alert('❌ CPF inválido. Verifique os números digitados.');
+            return;
+          }
 
-        //Validação do nome
-        const nomeReq = document.getElementById('nome').value.trim();
-        const nomeReqValido = /^[A-Za-zÀ-ÖØ-öø-ÿ'\-\s]+$/.test(nomeReq);
-
-        if (!nomeReqValido) {
+          // Validação do nome
+          const nomeReq = document.getElementById('nome').value.trim();
+          const nomeReqValido = /^[A-Za-zÀ-ÖØ-öø-ÿ'\-\s]+$/.test(nomeReq);
+          if (!nomeReqValido) {
             alert('❌ Nome inválido. Verifique o nome digitado.');
             return;
-        }
+          }
 
-        // validação do RG
-        if (!validarRG(document.getElementById('rg').value)) {
+          // Validação de RG
+          if (!validarRG(document.getElementById('rg').value)) {
             alert('❌ RG inválido. Verifique os números digitados.');
             return;
-        }
+          }
 
-        //Validação de telefone
-        const telefoneValido = validarTelefone(document.getElementById('telefone').value);
-        if (!telefoneValido) {
+          // Validação de telefone
+          if (!validarTelefone(document.getElementById('telefone').value)) {
             alert('❌ Telefone inválido. Verifique os números digitados.');
             return;
-        }
+          }
 
-
-        const ra = document.getElementById('ra').value;
-        if (!validarRA(ra)) {
+          // Validação de RA
+          const ra = document.getElementById('ra').value;
+          if (!validarRA(ra)) {
             alert('❌ RA inválido. Verifique os números digitados.');
             return;
+          }
+
+          // Seleciona motivo e arquivos
+          const motivo = document.getElementById('motivo_segunda_via').value;
+          const comprovanteInput = document.getElementById('comprovante');
+          const boInput = document.getElementById('bo');
+
+          
+
+          // Verifica obrigatoriedade dos arquivos
+          if (motivo === 'Perda' && (!comprovanteInput || comprovanteInput.files.length === 0)) {
+            alert('❌ Por favor, envie o comprovante.');
+            return;
+          }
+          if (motivo === 'Roubo/Furto') {
+            if (!comprovanteInput || comprovanteInput.files.length === 0) {
+              alert('❌ Por favor, envie o comprovante.');
+              return;
+            }
+            if (!boInput || boInput.files.length === 0) {
+              alert('❌ Por favor, envie o Boletim de Ocorrência.');
+              return;
+            }
+          }
+
+          //debug
+          console.log('Motivo segunda via:', motivo);
+
+          // --- Criar FormData ---
+          const formData = new FormData();
+          formData.append('ra', ra);
+          formData.append('telefone', document.getElementById('telefone').value);
+          formData.append('curso', document.getElementById('cursoDoc').value);
+          formData.append('nome', nomeReq);
+          formData.append('rg', document.getElementById('rg').value);
+          formData.append('email', document.querySelector('#formRequerimento #email').value);
+          formData.append('nome_doc', document.getElementById('nome_doc').value);
+          formData.append('cpf', cpfInput.value.replace(/\D/g, ''));
+          formData.append('motivo_segunda_via', motivo);
+
+          // Adiciona arquivos ao FormData
+          if (comprovanteInput && comprovanteInput.files.length > 0) {
+            formData.append('comprovante', comprovanteInput.files[0]);
+          }
+          if (boInput && boInput.files.length > 0) {
+            formData.append('bo', boInput.files[0]);
+          }
+
+          const inputImagem = document.getElementById('imagem');
+          if (inputImagem && inputImagem.files.length > 0) {
+            formData.append('imagem', inputImagem.files[0]);
+          }
+
+            // --- Envio ---
+            fetch('enviar_requerimento.php', {
+              method: 'POST',
+              body: formData
+            })
+              .then(resp => resp.json())
+              .then(data => {
+                if (data.sucesso) {
+                  alert('✅ Requerimento enviado com sucesso!');
+                  formRequerimento.reset();
+                  // opcional: esconder campos que dependem de seleção
+                  document.getElementById('blocoImagem').style.display = 'none';
+                  document.getElementById('uploadComprovante').style.display = 'none';
+                  document.getElementById('uploadBO').style.display = 'none';
+                  document.querySelectorAll('.file-upload-filename').forEach(span => span.textContent = 'Nenhum arquivo selecionado');
+                } else {
+                  alert('❌ Erro ao enviar requerimento: ' + data.mensagem);
+                }
+              })
+              .catch(() => alert('❌ Ocorreu um erro ao tentar enviar o formulário.'));
+          });
+      } 
+
+
+
+        const nomeDoc = document.getElementById('nome_doc'); // select do documento
+        const blocoImagem = document.getElementById('blocoImagem'); // div que aparece só para RA
+        const motivoSelect = document.getElementById('motivo_segunda_via'); // select do motivo
+        const uploadComprovante = document.getElementById('uploadComprovante'); // div do comprovante
+        const uploadBO = document.getElementById('uploadBO'); // div do BO
+
+        // Inicializa estado inicial
+        blocoImagem.style.display = nomeDoc.value === 'Carteira de Identidade Escolar (RA)' ? 'block' : 'none';
+
+        // Quando muda o documento
+        nomeDoc.addEventListener('change', () => {
+          if (nomeDoc.value === 'Carteira de Identidade Escolar (RA)') {
+            blocoImagem.style.display = 'block';
+            motivoSelect.value = '';
+            uploadComprovante.style.display = 'none';
+            uploadBO.style.display = 'none';
+            document.getElementById('comprovante').value = '';
+            document.getElementById('bo').value = '';
+            document.querySelectorAll('.file-upload-filename').forEach(span => span.textContent = 'Nenhum arquivo selecionado');
+          } else {
+            blocoImagem.style.display = 'none';
+            uploadComprovante.style.display = 'none';
+            uploadBO.style.display = 'none';
+          }
+        });
+
+        // Quando muda o motivo
+        motivoSelect.addEventListener('change', () => {
+          const motivo = motivoSelect.value;
+          if (motivo === 'Perda') {
+            uploadComprovante.style.display = 'block';
+            uploadBO.style.display = 'none';
+          } else if (motivo === 'Roubo/Furto') {
+            uploadComprovante.style.display = 'block';
+            uploadBO.style.display = 'block';
+          } else {
+            uploadComprovante.style.display = 'none';
+            uploadBO.style.display = 'none';
+          }
+        });
+
+        // Função para atualizar o nome do arquivo selecionado
+        function setupFileInput(fileInputId) {
+          const input = document.getElementById(fileInputId);
+          if (!input) return;
+
+          const wrapper = input.closest('.file-upload-wrapper');
+          if (!wrapper) return;
+
+          const btn = wrapper.querySelector('.file-upload-btn');
+          const span = wrapper.querySelector('.file-upload-filename');
+
+          // Clique no botão dispara o input
+          btn.addEventListener('click', () => input.click());
+
+          // Atualiza o nome do arquivo quando selecionado
+          input.addEventListener('change', () => {
+            span.textContent = input.files.length > 0 ? input.files[0].name : 'Nenhum arquivo selecionado';
+          });
         }
 
-      // --- INÍCIO DA CORREÇÃO ---
-      // Criamos um FormData vazio em vez de preenchê-lo automaticamente.
-      const formData = new FormData();
+        // Chamadas para cada input de arquivo
+        setupFileInput('comprovante'); // Comprovante
+        setupFileInput('bo');          // BO
+        setupFileInput('imagem');      // Imagem RA
 
-      // Pegamos cada valor do formulário de requerimento e adicionamos manualmente.
-      // Isso evita problemas com IDs duplicados e nos dá controle total.
-      formData.append('ra', document.getElementById('ra').value);
-      formData.append('telefone', document.getElementById('telefone').value);
-      formData.append('curso', document.getElementById('cursoDoc').value);
-      formData.append('nome', document.querySelector('#formRequerimento #nome').value);
-      formData.append('rg', document.getElementById('rg').value);
-      // Para o e-mail, usamos um seletor mais específico para pegar o campo certo.
-      formData.append('email', document.querySelector('#formRequerimento #email').value);
-      formData.append('nome_doc', document.getElementById('nome_doc').value);
       
-      // Finalmente, pegamos o CPF, limpamos e adicionamos.
-      const cpfLimpo = cpfInput.value.replace(/\D/g, '');
-      formData.append('cpf', cpfLimpo);
-      // --- FIM DA CORREÇÃO ---
-
-      fetch('enviar_requerimento.php', {
-        method: 'POST',
-        body: formData
-      })
-        .then(resp => resp.json())
-        .then(data => {
-          if (data.sucesso) {
-            alert('✅ Requerimento enviado com sucesso!');
-            formRequerimento.reset();
-          } else {
-            alert('❌ Erro ao enviar requerimento: ' + data.mensagem);
-          }
-        })
-        .catch(() => alert('❌ Ocorreu um erro ao tentar enviar o formulário.'));
-    });
-  }
 
   // === Mostrar/ocultar botões de ajuda ===
   const ajudaBotao = document.getElementById('ajudaBotao');
@@ -562,6 +668,7 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
+  
 
 
 

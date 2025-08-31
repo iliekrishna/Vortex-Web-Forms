@@ -177,7 +177,8 @@
         </div>
         
         <!-- formulario requerimento -->
-        <form id="formRequerimento">
+        <form id="formRequerimento" method="POST" enctype="multipart/form-data">
+
 
           <label for="nomeDocumento">Nome:</label>
           <input type="text" id="nome" name="nome">
@@ -213,14 +214,57 @@
           <select id="nome_doc" name="nome_doc" required>
             <option value="">-- Selecione --</option>
             <option value="Certificado de Conclusão de curso">Certificado de Conclusão de curso</option>
-            <option value="Declaração de Conclusão de Curso">Declaração de Conclusão de Curso</option>
+            <option value="Declaração de Conclusão   de Curso">Declaração de Conclusão de Curso</option>
             <option value="Histórico Escolar">Histórico Escolar</option>
             <option value="Conteúdo Programático">Conteúdo Programático</option>
             <option value="Carteira de Identidade Escolar (RA)">Carteira de Identidade Escolar (RA)</option>
           </select>
+          
+          <div id="blocoImagem" style="display: none; margin-top: 10px;">
+            <label for="motivo_segunda_via">Motivo da 2ª via:</label>
+            <select id="motivo_segunda_via" name="motivo_segunda_via">
+              <option value="">-- Selecione --</option>
+              <option value="Perda">Perda</option>
+              <option value="Roubo/Furto">Roubo/Furto</option>
+            </select>
 
+            <div id="uploadComprovante" style="display: none; margin-top: 10px;">
+              <label for="comprovante">Comprovante de Pagamento:</label>
+              <div class="file-upload-wrapper">
+                <input type="file" id="comprovante" name="comprovante" class="file-upload-input" />
+                <button type="button" class="file-upload-btn">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-arrow-up-circle" viewBox="0 0 16 16">
+                    <path fill-rule="evenodd" d="M8 15A7 7 0 1 0 8 1a7 7 0 0 0 0 14zm0-1A6 6 0 1 1 8 2a6 6 0 0 1 0 12z"/>
+                    <path fill-rule="evenodd" d="M8 12a.5.5 0 0 0 .5-.5V5.707l1.146 1.147a.5.5 0 0 0 .708-.708l-2-2-.007-.007a.498.498 0 0 0-.697.014l-2 2a.5.5 0 0 0 .708.708L7.5 5.707V11.5A.5.5 0 0 0 8 12z"/>
+                  </svg>
+                  Selecionar Comprovante
+                </button>
+                <span class="file-upload-filename">Nenhum arquivo selecionado</span>
+              </div>
+            </div>
+
+            <div id="uploadBO" style="display: none; margin-top: 10px;">
+              <label for="bo">Boletim de Ocorrência (B.O.):</label>
+              <div class="file-upload-wrapper">
+                <input type="file" id="bo" name="bo" class="file-upload-input" />
+                <button type="button" class="file-upload-btn">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-arrow-up-circle" viewBox="0 0 16 16">
+                    <path fill-rule="evenodd" d="M8 15A7 7 0 1 0 8 1a7 7 0 0 0 0 14zm0-1A6 6 0 1 1 8 2a6 6 0 0 1 0 12z"/>
+                    <path fill-rule="evenodd" d="M8 12a.5.5 0 0 0 .5-.5V5.707l1.146 1.147a.5.5 0 0 0 .708-.708l-2-2-.007-.007a.498.498 0 0 0-.697.014l-2 2a.5.5 0 0 0 .708.708L7.5 5.707V11.5A.5.5 0 0 0 8 12z"/>
+                  </svg>
+                  Selecionar B.O.
+                </button>
+                <span class="file-upload-filename">Nenhum arquivo selecionado</span>
+              </div>
+            </div>
+          </div>
+
+          
           <input type="submit" value="Solicitar Documento">
         </form>
+        
+
+        
 
         <div class="separator"></div>
         <div class="document-deadlines">
