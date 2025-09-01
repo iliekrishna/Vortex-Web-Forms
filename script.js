@@ -3,7 +3,39 @@ document.addEventListener('DOMContentLoaded', () => {
   // Mostrar ou esconder campos RA/Curso conforme o tipo de vínculo
   const tipoVinculoSelect = document.getElementById('tipo_vinculo');
   const grupoAluno = document.getElementById('grupoAluno'); // Seu grupo com RA, Curso etc
-  const campoRA = document.getElementById('raEnviar');
+    const campoRA = document.getElementById('raEnviar');
+    // --- Popula select de documentos via PHP ---
+    const nomeDoc = document.getElementById('nome_doc');
+    if (nomeDoc) {
+        // Mensagem inicial
+        nomeDoc.innerHTML = '<option value="">Carregando documentos...</option>';
+
+        fetch('Trazer_Doc.php')
+            .then(resp => resp.json())
+            .then(data => {
+                if (data.sucesso) {
+                    // Limpa e adiciona a opção padrão
+                    nomeDoc.innerHTML = '<option value="">Selecione um documento</option>';
+
+                    // Adiciona os documentos do PHP
+                    data.documentos.forEach(doc => {
+                        const option = document.createElement('option');
+                        option.value = doc.nome_doc; // ou doc.id_disponibilidade se quiser usar o ID
+                        option.textContent = doc.nome_doc;
+                        nomeDoc.appendChild(option);
+                    });
+                } else {
+                    nomeDoc.innerHTML = '<option value="">Erro ao carregar documentos</option>';
+                    console.error('Erro PHP:', data.mensagem);
+                }
+            })
+            .catch(err => {
+                nomeDoc.innerHTML = '<option value="">Erro ao conectar com o servidor</option>';
+                console.error('Erro fetch:', err);
+            });
+    }
+
+
 
   tipoVinculoSelect.addEventListener('change', function () {
     const valor = this.value;
@@ -580,11 +612,13 @@ document.addEventListener('DOMContentLoaded', () => {
 
 
 
-        const nomeDoc = document.getElementById('nome_doc'); // select do documento
+        
         const blocoImagem = document.getElementById('blocoImagem'); // div que aparece só para RA
         const motivoSelect = document.getElementById('motivo_segunda_via'); // select do motivo
         const uploadComprovante = document.getElementById('uploadComprovante'); // div do comprovante
-        const uploadBO = document.getElementById('uploadBO'); // div do BO
+    const uploadBO = document.getElementById('uploadBO'); // div do BO
+
+    
 
         // Inicializa estado inicial
         blocoImagem.style.display = nomeDoc.value === 'Carteira de Identidade Escolar (RA)' ? 'block' : 'none';
@@ -668,7 +702,26 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
-  
+    const prazosContainer = document.getElementById('prazosContainer');
+
+    fetch('Prazo.php')
+        .then(resp => resp.json())
+        .then(data => {
+            if (data.sucesso && data.documentos.length > 0) {
+                prazosContainer.innerHTML = '';
+                data.documentos.forEach(doc => {
+                    const p = document.createElement('p');
+                    p.innerHTML = `<strong>${doc.nome_doc}:</strong> ${doc.descricao}`;
+                    prazosContainer.appendChild(p);
+                });
+            } else {
+                prazosContainer.innerHTML = '<p>Nenhum documento encontrado.</p>';
+            }
+        })
+        .catch(err => {
+            console.error('Erro ao carregar documentos:', err);
+            prazosContainer.innerHTML = '<p>Erro ao carregar os prazos.</p>';
+        });
 
 
 
