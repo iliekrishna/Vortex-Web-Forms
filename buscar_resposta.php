@@ -28,37 +28,37 @@ try {
         PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION
     ]);
 
-    // MODIFICAÇÃO 1: Adicionado 'ticket' AS tipo na consulta
-    $stmt1 = $pdo->prepare("SELECT 'ticket' AS tipo, assunto AS titulo, resposta, data_resposta FROM t_tickets WHERE cpf = :cpf");
+    // Tickets (status já vem como `status`)
+    $stmt1 = $pdo->prepare("SELECT 'ticket' AS tipo, assunto AS titulo, resposta, data_resposta, `status` AS status
+                            FROM t_tickets WHERE cpf = :cpf");
     $stmt1->execute(['cpf' => $cpf]);
     $resultados1 = $stmt1->fetchAll(PDO::FETCH_ASSOC);
 
-    // MODIFICAÇÃO 2: Adicionado 'requerimento' AS tipo na consulta
-    $stmt2 = $pdo->prepare("SELECT 'requerimento' AS tipo, nome_doc AS titulo, resposta, data_resposta FROM t_requerimentos WHERE cpf = :cpf");
+    // Requerimentos (status_doc renomeado para `status`)
+    $stmt2 = $pdo->prepare("SELECT 'requerimento' AS tipo, nome_doc AS titulo, resposta, data_resposta, status_doc AS status
+                            FROM t_requerimentos WHERE cpf = :cpf");
     $stmt2->execute(['cpf' => $cpf]);
     $resultados2 = $stmt2->fetchAll(PDO::FETCH_ASSOC);
 
     // Junta os dois conjuntos de resultados
     $historico = array_merge($resultados1, $resultados2);
 
-    // MODIFICAÇÃO 3: Lógica de ordenação robusta que lida com datas nulas
+    // Ordena pela data (mais recentes primeiro, nulos por último)
     usort($historico, function ($a, $b) {
         $dateA = $a['data_resposta'];
         $dateB = $b['data_resposta'];
 
-        // Itens sem data de resposta (nulos) são considerados mais recentes
         if ($dateA === null && $dateB !== null) {
-            return -1; // $a vem antes de $b
+            return 1; // $b vem antes
         }
         if ($dateA !== null && $dateB === null) {
-            return 1; // $b vem antes de $a
+            return -1; // $a vem antes
         }
-        
-        // Se ambos são nulos ou ambos têm datas, ordena pela data
+
         $timeA = $dateA ? strtotime($dateA) : PHP_INT_MAX;
         $timeB = $dateB ? strtotime($dateB) : PHP_INT_MAX;
 
-        return $timeB - $timeA; // Ordem decrescente (mais recente primeiro)
+        return $timeB - $timeA; // decrescente
     });
 
     echo json_encode([

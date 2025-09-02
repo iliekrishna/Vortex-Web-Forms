@@ -3,7 +3,39 @@ document.addEventListener('DOMContentLoaded', () => {
   // Mostrar ou esconder campos RA/Curso conforme o tipo de vínculo
   const tipoVinculoSelect = document.getElementById('tipo_vinculo');
   const grupoAluno = document.getElementById('grupoAluno'); // Seu grupo com RA, Curso etc
-  const campoRA = document.getElementById('raEnviar');
+    const campoRA = document.getElementById('raEnviar');
+    // --- Popula select de documentos via PHP ---
+    const nomeDoc = document.getElementById('nome_doc');
+    if (nomeDoc) {
+        // Mensagem inicial
+        nomeDoc.innerHTML = '<option value="">Carregando documentos...</option>';
+
+        fetch('Trazer_Doc.php')
+            .then(resp => resp.json())
+            .then(data => {
+                if (data.sucesso) {
+                    // Limpa e adiciona a opção padrão
+                    nomeDoc.innerHTML = '<option value="">Selecione um documento</option>';
+
+                    // Adiciona os documentos do PHP
+                    data.documentos.forEach(doc => {
+                        const option = document.createElement('option');
+                        option.value = doc.nome_doc; // ou doc.id_disponibilidade se quiser usar o ID
+                        option.textContent = doc.nome_doc;
+                        nomeDoc.appendChild(option);
+                    });
+                } else {
+                    nomeDoc.innerHTML = '<option value="">Erro ao carregar documentos</option>';
+                    console.error('Erro PHP:', data.mensagem);
+                }
+            })
+            .catch(err => {
+                nomeDoc.innerHTML = '<option value="">Erro ao conectar com o servidor</option>';
+                console.error('Erro fetch:', err);
+            });
+    }
+
+
 
   tipoVinculoSelect.addEventListener('change', function () {
     const valor = this.value;
@@ -419,44 +451,69 @@ document.addEventListener('DOMContentLoaded', () => {
           return resp.json();
         })
         .then(data => {
-          if (data.sucesso) {
-            if (!data.historico || data.historico.length === 0) {
-              respostaContainer.innerHTML = 'Nenhum ticket ou solicitação de documento encontrado para este CPF.';
-              resultadoDiv.style.display = 'block';
-              return;
-            }
+  if (data.sucesso) {
+    if (!data.historico || data.historico.length === 0) {
+      respostaContainer.innerHTML = 'Nenhum ticket ou solicitação de documento encontrado para este CPF.';
+      resultadoDiv.style.display = 'block';
+      return;
+    }
 
-            resultadoDiv.style.display = 'block';
-            
-            const ultima = data.historico[0];
-            const labelUltima = ultima.tipo === 'requerimento' ? 'Documento Solicitado' : 'Assunto';
-            
-            respostaContainer.innerHTML = `
-              <div class="historico-item">
-                <p><strong>${labelUltima}:</strong> ${ultima.titulo || 'Não especificado'}</p>
-                <p><strong>Resposta:</strong> ${ultima.resposta || 'Ainda não respondido'}</p>
-              </div>
-            `;
+    resultadoDiv.style.display = 'block';
+
+  
+    // === Última respondida ===
+    const ultima = data.historico.find(item => item.resposta && item.resposta.trim() !== '' || item.status === "Cancelado");
+
+    if (ultima) {
+      const labelUltima = ultima.tipo === 'requerimento' ? 'Documento Solicitado' : 'Assunto';
+
+      let respostaTexto;
+      if (ultima.status === "Cancelado") {
+        respostaTexto = `Pergunta invalidada. Justificativa: ${ultima.resposta || 'Sem justificativa informada'}`;
+      } else {
+        respostaTexto = ultima.resposta;
+      }
+
+      respostaContainer.innerHTML = `
+        <div class="historico-item">
+          <p><strong>${labelUltima}:</strong> ${ultima.titulo || 'Não especificado'}</p>
+          <p><strong>Resposta:</strong> ${respostaTexto}</p>
+        </div>
+      `;
+    } else {
+      respostaContainer.innerHTML = '';
+    }
 
 
-            let htmlHistorico = '';
-            data.historico.forEach(item => {
-              const label = item.tipo === 'requerimento' ? 'Documento Solicitado' : 'Assunto';
-              htmlHistorico += `
-                <div class="historico-item">
-                  <p><strong>${label}:</strong> ${item.titulo || 'Não especificado'}</p>
-                  <p><strong>Resposta:</strong> ${item.resposta || 'Ainda não respondido'}</p>
-                </div>
-                ${data.historico.indexOf(item) < data.historico.length - 1 ? '<hr>' : ''}
-              `;
-            });
-            historicoContainer.innerHTML = htmlHistorico;
+    // === Histórico completo (inclusive sem resposta) ===
+    let htmlHistorico = '';
+    data.historico.forEach((item, idx) => {
+      const label = item.tipo === 'requerimento' ? 'Documento Solicitado' : 'Assunto';
 
-          } else {
-            respostaContainer.innerHTML = 'Erro: ' + data.mensagem;
-            resultadoDiv.style.display = 'block';
-          }
-        })
+      let respostaTexto;
+      if (item.status === "Cancelado") {
+        respostaTexto = `Pergunta invalidada. Justificativa: ${item.resposta || 'Sem justificativa informada'}`;
+      } else {
+        respostaTexto = item.resposta || 'Ainda não respondido';
+      }
+
+      htmlHistorico += `
+        <div class="historico-item">
+          <p><strong>${label}:</strong> ${item.titulo || 'Não especificado'}</p>
+          <p><strong>Resposta:</strong> ${respostaTexto}</p>
+        </div>
+        ${idx < data.historico.length - 1 ? '<hr>' : ''}
+      `;
+    });
+    historicoContainer.innerHTML = htmlHistorico;
+
+
+  } else {
+    respostaContainer.innerHTML = 'Erro: ' + data.mensagem;
+    resultadoDiv.style.display = 'block';
+  }
+})
+
         .catch(err => {
           respostaContainer.innerHTML = 'Ocorreu um erro: ' + err.message;
           resultadoDiv.style.display = 'block';
@@ -580,11 +637,13 @@ document.addEventListener('DOMContentLoaded', () => {
 
 
 
-        const nomeDoc = document.getElementById('nome_doc'); // select do documento
+        
         const blocoImagem = document.getElementById('blocoImagem'); // div que aparece só para RA
         const motivoSelect = document.getElementById('motivo_segunda_via'); // select do motivo
         const uploadComprovante = document.getElementById('uploadComprovante'); // div do comprovante
-        const uploadBO = document.getElementById('uploadBO'); // div do BO
+    const uploadBO = document.getElementById('uploadBO'); // div do BO
+
+    
 
         // Inicializa estado inicial
         blocoImagem.style.display = nomeDoc.value === 'Carteira de Identidade Escolar (RA)' ? 'block' : 'none';
@@ -668,7 +727,26 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
-  
+    const prazosContainer = document.getElementById('prazosContainer');
+
+    fetch('Prazo.php')
+        .then(resp => resp.json())
+        .then(data => {
+            if (data.sucesso && data.documentos.length > 0) {
+                prazosContainer.innerHTML = '';
+                data.documentos.forEach(doc => {
+                    const p = document.createElement('p');
+                    p.innerHTML = `<strong>${doc.nome_doc}:</strong> ${doc.descricao}`;
+                    prazosContainer.appendChild(p);
+                });
+            } else {
+                prazosContainer.innerHTML = '<p>Nenhum documento encontrado.</p>';
+            }
+        })
+        .catch(err => {
+            console.error('Erro ao carregar documentos:', err);
+            prazosContainer.innerHTML = '<p>Erro ao carregar os prazos.</p>';
+        });
 
 
 
