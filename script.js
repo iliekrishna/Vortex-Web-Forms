@@ -20,7 +20,8 @@ document.addEventListener('DOMContentLoaded', () => {
                     // Adiciona os documentos do PHP
                     data.documentos.forEach(doc => {
                         const option = document.createElement('option');
-                        option.value = doc.nome_doc; // ou doc.id_disponibilidade se quiser usar o ID
+                        option.value = doc.nome_doc; // mantém valor visível
+                        option.dataset.disponibilidade = doc.id_disponibilidade; // armazena o ID
                         option.textContent = doc.nome_doc;
                         nomeDoc.appendChild(option);
                     });
@@ -107,7 +108,7 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
-    //=== Função para aplicar máscara de RG Ex :12.345.678-9 ===
+    // Aplicar mascara de RG
 
     function aplicarMascaraRG(id) {
         const input = document.getElementById(id);
@@ -134,7 +135,12 @@ document.addEventListener('DOMContentLoaded', () => {
         rg = rg.replace(/\D/g, ''); // remove pontos e hífen
 
         // Exige 9 dígitos numéricos
-        return /^[0-9]{9}$/.test(rg);
+        if (!/^[0-9]{9}$/.test(rg)) return false;
+
+        if (/(\d)\1{5,}/.test(rg)) return false;
+
+
+        return true;
     }
 
     // Mascara de telefone
@@ -222,104 +228,56 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     // === FAQ toggle ===
-    const faqCategorias = document.querySelectorAll('.faq-categoria');
-    const faqsPorCategoria = {
-    documentos_emissao: [
-      {
-        pergunta: "Como faço para solicitar o atestado de matrícula?",
-        resposta: "Solicitar o documento pelo Siga. Prazo para deferimento do pedido: 3 dias úteis."
-      },
-      {
-        pergunta: "Como faço para solicitar a 2ª via da carteirinha?",
-        resposta: "Em caso de roubo: realizar B.O (Boletim de Ocorrência), entregar na Secretaria e preencher a solicitação. Em caso de perda ou furto: realizar B.O, pagar a taxa de emissão da 2ª via, entregar na Secretaria junto com comprovante de pagamento, B.O e preencher a solicitação."
-      }
-    ],
-    matricula_trancamento: [
-      {
-        pergunta: "Tenho direito a quantos trancamentos?",
-        resposta: `De acordo com o Regulamento das Fatec´s – Trancamento de Matrícula:<br>
-        Art. 35 - O aluno tem direito, mediante solicitação, a 2 (dois) trancamentos de matrícula consecutivos ou não.<br>
-        § 1º - Cada trancamento tem duração de um período letivo regular.<br>
-        § 2º - A solicitação pode ser feita desde o início da pré-matrícula até 2/3 do período letivo.<br>
-        § 3º - Durante o trancamento o aluno não pode cursar disciplinas de Graduação em qualquer Faculdade do Centro Paula Souza.<br>
-        § 4º - É vedado trancamento no período letivo de ingresso no curso.`
-      }
-    ],
-    passe_escolar: [
-      {
-        pergunta: "Como faço para solicitar o passe escolar de Guarulhos?",
-        resposta: `Imprimir o formulário de Solicitação de Carteirinha Municipal disponível no site da Guarupass e preencher.<br>
-        Deixar na secretaria para assinatura junto com um comprovante de endereço. Prazo para retirada: 3 dias úteis.<br>
-        Solicitar um atestado de matrícula no Siga, disponível em até 3 dias úteis para baixar em PDF.<br>
-        Fazer agendamento na Guarupass e apresentar a documentação solicitada.`
-      },
-      {
-        pergunta: "Como faço para solicitar o passe escolar SPTrans ou EMTU?",
-        resposta: "Você deve acessar o site: https://secretaria.fatecguarulhos.edu.br/safire-web/php/ , e preencher o requerimento. A analise ocorrerá em até 3 dias úteis."
-      }
-    ],
-    estagio: [
-      {
-        pergunta: "Como faço para ter meu Termo de Compromisso de Estágio?",
-        resposta: `O Termo de Compromisso de Estágio (TCE) deve ser entregue na Secretaria da Fatec Guarulhos, já assinado pelas partes, em 3 vias.<br>
-        Deve também acompanhar 3 vias do Plano de Atividade e 3 vias da apólice de seguros.<br>
-        Os modelos estão disponíveis em: <a href="https://www.fatecguarulhos.edu.br/alunos/estagio/" target="_blank">fatecguarulhos.edu.br/alunos/estagio/</a>`
-      },
-      {
-        pergunta: "Posso usar o modelo da empresa?",
-        resposta: "Sim."
-      },
-      {
-        pergunta: "Quanto tempo demora para o Termo de Compromisso ser assinado?",
-        resposta: "5 dias úteis."
-      }
-    ],
-    gerenciamento_curso: [
-      {
-        pergunta: "Como faço para realizar transferência de curso?",
-        resposta: "Existem dois tipos de transferência na fatec, interna e externa. A transferência é feita mediante edital de remanejamento da Fatec para qual deseja ir, que é publicado no site da instituição duas vezes no ano. Nele estarão listados todos os documentos e procedimentos necessários, variando de Fatec para Fatec."
-      },
-      {
-        pergunta: "Como faço para ter abono de faltas?",
-        resposta: "O abono de faltas só é realizado nos seguintes casos: 1.Convocação para cumprimento de serviços obrigatórios por lei; 2.Exercício de representação estudantil em órgãos colegiados, nos horários em que estes se reúnem; 3.Falecimento de cônjuge, filho, pais ou padrastos e irmãos, 3 (três) dias; 4.Falecimento de avós, sogros e cunhados, 2 (dois) dias. São considerados merecedores de tratamento excepcional os alunos em condição de incapacidade física temporária de frequência às aulas, mas com conservação das condições intelectuais e emocionais necessárias ao prosseguimento dos estudos. Para tanto, é necessário que possuam atestados médicos não inferiores a 15 dias, com a especificação da natureza do impedimento e informações de que as condições intelectuais e emocionais necessárias para o desenvolvimento das atividades de estudo estão preservadas;"
-      },
-      {
-        pergunta: "Como faço para solicitar o aproveitamento de matérias?",
-        resposta: "A solicitação deverá ser realizada no sistema Siga no prazo estabelecido em calendário, sendo obrigatório anexar os documentos: Histórico escolar da instituição e conteúdo programático."
-      }
-    ],
-    outros: [
-      {
-        pergunta: "Qual o horário de atendimento da Secretaria?",
-        resposta: "De 2ª a 6ª feira, das 8h às 22h."
-      },
-      {
-        pergunta: "Como faço para me inscrever no vestibular?",
-        resposta: "A seleção de novos ingressantes acontece semestralmente. As inscrições devem ser realizadas no site: https://vestibular.fatec.sp.gov.br/home/, e realizar a inscrição, seguindo as informações do Manual do Candidato."
-      }
-    ]
-    };
+    fetch('Trazer_faqs.php')
+        .then(resp => resp.json())
+        .then(data => {
+            if (data.success) {
+                const faqCategoriasContainer = document.querySelector('.faq-categorias');
+                faqCategoriasContainer.innerHTML = ''; // Limpa categorias hardcoded
 
-  // Carrega FAQs e adiciona eventos
-    faqCategorias.forEach(categoria => {
-      const categoriaId = categoria.dataset.categoria;
-      const perguntasContainer = categoria.querySelector('.faq-perguntas');
-      const faqs = faqsPorCategoria[categoriaId] || [];
-      
-      perguntasContainer.innerHTML = faqs.map(faq => `
-        <div class="faq-item">
-          <p class="pergunta">${faq.pergunta}</p>
-          <p class="resposta">${faq.resposta}</p>
-        </div>
-      `).join("");
+                // data.faqs é um objeto com chave = categoria_id
+                Object.values(data.faqs).forEach(categoria => {
+                    const categoriaDiv = document.createElement('div');
+                    categoriaDiv.classList.add('faq-categoria');
 
-      categoria.addEventListener('click', function(e) {
-        if (e.target.closest('.faq-item')) return;
-        this.classList.toggle('active');
-        const perguntas = this.querySelector('.faq-perguntas');
-        perguntas.style.display = perguntas.style.display === 'none' ? 'block' : 'none';
-      });
-    });
+                    const h4 = document.createElement('h4');
+                    h4.textContent = categoria.nome_categoria; // pega o nome atualizado
+                    categoriaDiv.appendChild(h4);
+
+                    const perguntasDiv = document.createElement('div');
+                    perguntasDiv.classList.add('faq-perguntas');
+                    perguntasDiv.style.display = 'none';
+
+                    categoria.perguntas.forEach(faq => {
+                        const itemDiv = document.createElement('div');
+                        itemDiv.classList.add('faq-item');
+
+                        const perguntaP = document.createElement('p');
+                        perguntaP.classList.add('pergunta');
+                        perguntaP.innerHTML = faq.pergunta;
+
+                        const respostaP = document.createElement('p');
+                        respostaP.classList.add('resposta');
+                        respostaP.innerHTML = faq.resposta;
+
+                        itemDiv.appendChild(perguntaP);
+                        itemDiv.appendChild(respostaP);
+                        perguntasDiv.appendChild(itemDiv);
+                    });
+
+                    categoriaDiv.appendChild(perguntasDiv);
+                    faqCategoriasContainer.appendChild(categoriaDiv);
+
+                    categoriaDiv.addEventListener('click', function (e) {
+                        if (e.target.closest('.faq-item')) return;
+                        perguntasDiv.style.display = perguntasDiv.style.display === 'none' ? 'block' : 'none';
+                    });
+                });
+            } else {
+                console.error('Erro ao carregar FAQs:', data.error || data.mensagem);
+            }
+        })
+        .catch(err => console.error('Erro fetch FAQs:', err));
 
   // === Controle do formulário de ticket ===
   const formTicket = document.getElementById('formTicket');
@@ -521,7 +479,7 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
-  // === Envio do requerimento ===
+  
   // === Envio do requerimento ===
       const formRequerimento = document.getElementById('formRequerimento');
       if (formRequerimento) {
@@ -590,10 +548,10 @@ document.addEventListener('DOMContentLoaded', () => {
           // --- Criar FormData ---
           const formData = new FormData();
           formData.append('ra', ra);
-          formData.append('telefone', document.getElementById('telefone').value);
+          formData.append('telefone', document.getElementById('telefone').value.replace(/\D/g, ''));
           formData.append('curso', document.getElementById('cursoDoc').value);
           formData.append('nome', nomeReq);
-          formData.append('rg', document.getElementById('rg').value);
+          formData.append('rg', document.getElementById('rg').value.replace(/\D/g, ''));
           formData.append('email', document.querySelector('#formRequerimento #email').value);
           formData.append('nome_doc', document.getElementById('nome_doc').value);
           formData.append('cpf', cpfInput.value.replace(/\D/g, ''));
@@ -646,11 +604,11 @@ document.addEventListener('DOMContentLoaded', () => {
     
 
         // Inicializa estado inicial
-        blocoImagem.style.display = nomeDoc.value === 'Carteira de Identidade Escolar (RA)' ? 'block' : 'none';
+    blocoImagem.style.display = nomeDoc.selectedOptions[0]?.dataset.disponibilidade === '5' ? 'block' : 'none';
 
         // Quando muda o documento
         nomeDoc.addEventListener('change', () => {
-          if (nomeDoc.value === 'Carteira de Identidade Escolar (RA)') {
+            if (nomeDoc.selectedOptions[0]?.dataset.disponibilidade === '5') {
             blocoImagem.style.display = 'block';
             motivoSelect.value = '';
             uploadComprovante.style.display = 'none';

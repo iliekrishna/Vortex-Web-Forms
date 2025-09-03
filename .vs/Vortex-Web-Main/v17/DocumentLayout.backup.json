@@ -3,12 +3,28 @@
   "WorkspaceRootPath": "C:\\xampp\\htdocs\\Projeto Secretaria\\Vortex-Web-Main\\",
   "Documents": [
     {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\xampp\\htdocs\\Projeto Secretaria\\Vortex-Web-Main\\main.html||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:main.html||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
       "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\xampp\\htdocs\\Projeto Secretaria\\Vortex-Web-Main\\script.js||{14D17961-FE51-464D-9111-C4AF11D7D99A}",
       "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:script.js||{14D17961-FE51-464D-9111-C4AF11D7D99A}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\xampp\\htdocs\\Projeto Secretaria\\Vortex-Web-Main\\main.html||{40D31677-CBC0-4297-A9EF-89D907823A98}",
-      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:main.html||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\xampp\\htdocs\\Projeto Secretaria\\Vortex-Web-Main\\Trazer_Doc.php||{3B902123-F8A7-4915-9F01-361F908088D0}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:Trazer_Doc.php||{3B902123-F8A7-4915-9F01-361F908088D0}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\xampp\\htdocs\\Projeto Secretaria\\Vortex-Web-Main\\Trazer_faqs.php||{3B902123-F8A7-4915-9F01-361F908088D0}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:Trazer_faqs.php||{3B902123-F8A7-4915-9F01-361F908088D0}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\xampp\\htdocs\\Projeto Secretaria\\Vortex-Web-Main\\Prazo.php||{3B902123-F8A7-4915-9F01-361F908088D0}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:Prazo.php||{3B902123-F8A7-4915-9F01-361F908088D0}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\xampp\\htdocs\\Projeto Secretaria\\Vortex-Web-Main\\enviar_ticket.php||{3B902123-F8A7-4915-9F01-361F908088D0}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:enviar_ticket.php||{3B902123-F8A7-4915-9F01-361F908088D0}"
     }
   ],
   "DocumentGroupContainers": [
@@ -18,7 +34,7 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 2,
+          "SelectedChildIndex": 5,
           "Children": [
             {
               "$type": "Bookmark",
@@ -26,25 +42,78 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 1,
+              "DocumentIndex": 3,
+              "Title": "Trazer_faqs.php",
+              "DocumentMoniker": "C:\\xampp\\htdocs\\Projeto Secretaria\\Vortex-Web-Main\\Trazer_faqs.php",
+              "RelativeDocumentMoniker": "Trazer_faqs.php",
+              "ToolTip": "C:\\xampp\\htdocs\\Projeto Secretaria\\Vortex-Web-Main\\Trazer_faqs.php",
+              "RelativeToolTip": "Trazer_faqs.php",
+              "ViewState": "AgIAAAYAAAAAAAAAAAAIwC0AAAABAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.002338|",
+              "WhenOpened": "2025-09-02T23:26:18.009Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
+              "Title": "Prazo.php",
+              "DocumentMoniker": "C:\\xampp\\htdocs\\Projeto Secretaria\\Vortex-Web-Main\\Prazo.php",
+              "RelativeDocumentMoniker": "Prazo.php",
+              "ToolTip": "C:\\xampp\\htdocs\\Projeto Secretaria\\Vortex-Web-Main\\Prazo.php",
+              "RelativeToolTip": "Prazo.php",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABkAAAAaAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.002338|",
+              "WhenOpened": "2025-09-01T00:42:13.634Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "Trazer_Doc.php",
+              "DocumentMoniker": "C:\\xampp\\htdocs\\Projeto Secretaria\\Vortex-Web-Main\\Trazer_Doc.php",
+              "RelativeDocumentMoniker": "Trazer_Doc.php",
+              "ToolTip": "C:\\xampp\\htdocs\\Projeto Secretaria\\Vortex-Web-Main\\Trazer_Doc.php",
+              "RelativeToolTip": "Trazer_Doc.php",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAACMAAAABAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.002338|",
+              "WhenOpened": "2025-08-31T23:06:52.379Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 5,
+              "Title": "enviar_ticket.php",
+              "DocumentMoniker": "C:\\xampp\\htdocs\\Projeto Secretaria\\Vortex-Web-Main\\enviar_ticket.php",
+              "RelativeDocumentMoniker": "enviar_ticket.php",
+              "ToolTip": "C:\\xampp\\htdocs\\Projeto Secretaria\\Vortex-Web-Main\\enviar_ticket.php",
+              "RelativeToolTip": "enviar_ticket.php",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABgAAAABAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.002338|",
+              "WhenOpened": "2025-08-31T22:59:31.864Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
               "Title": "main.html",
               "DocumentMoniker": "C:\\xampp\\htdocs\\Projeto Secretaria\\Vortex-Web-Main\\main.html",
               "RelativeDocumentMoniker": "main.html",
               "ToolTip": "C:\\xampp\\htdocs\\Projeto Secretaria\\Vortex-Web-Main\\main.html",
               "RelativeToolTip": "main.html",
-              "ViewState": "AgIAAJEAAAAAAAAAAAAAALcAAAA5AAAAAAAAAA==",
+              "ViewState": "AgIAAJMAAAAAAAAAAAAAAKsAAABBAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001512|",
-              "WhenOpened": "2025-07-02T23:28:39.069Z"
+              "WhenOpened": "2025-07-02T23:28:39.069Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 0,
+              "DocumentIndex": 1,
               "Title": "script.js",
               "DocumentMoniker": "C:\\xampp\\htdocs\\Projeto Secretaria\\Vortex-Web-Main\\script.js",
               "RelativeDocumentMoniker": "script.js",
               "ToolTip": "C:\\xampp\\htdocs\\Projeto Secretaria\\Vortex-Web-Main\\script.js",
               "RelativeToolTip": "script.js",
-              "ViewState": "AgIAAHQCAAAAAAAAAAAAAD0BAAAZAAAAAAAAAA==",
+              "ViewState": "AgIAAFgCAAAAAAAAAAAkwF4CAABaAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001646|",
               "WhenOpened": "2025-07-02T20:04:12.349Z",
               "EditorCaption": ""
