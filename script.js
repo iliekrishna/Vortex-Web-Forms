@@ -279,6 +279,67 @@ document.addEventListener('DOMContentLoaded', () => {
         })
         .catch(err => console.error('Erro fetch FAQs:', err));
 
+        // === FAQ Search ===
+        const searchInput = document.getElementById('faqSearch');
+        if (searchInput) {
+          searchInput.addEventListener('input', function () {
+            const termo = this.value.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, ""); // remove acentos
+
+            document.querySelectorAll('.faq-categoria').forEach(categoria => {
+              let temResultado = false;
+
+              categoria.querySelectorAll('.faq-item').forEach(item => {
+                const pergunta = item.querySelector('.pergunta');
+                const resposta = item.querySelector('.resposta');
+
+                // Texto original
+                const originalPergunta = pergunta.textContent;
+                const originalResposta = resposta.textContent;
+
+                // Normaliza sem acento
+                const normalizedPergunta = originalPergunta.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "");
+                const normalizedResposta = originalResposta.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "");
+
+                // Limpa highlights antigos
+                pergunta.innerHTML = originalPergunta;
+                resposta.innerHTML = originalResposta;
+
+                function highlight(original, normalized) {
+                  if (termo === "") return original;
+
+                  let result = "";
+                  let i = 0;
+
+                  while (i < normalized.length) {
+                    if (normalized.substr(i, termo.length) === termo) {
+                      // adiciona highlight usando índice do texto original
+                      result += `<span class="highlight">${original.substr(i, termo.length)}</span>`;
+                      i += termo.length;
+                    } else {
+                      result += original[i];
+                      i++;
+                    }
+                  }
+                  return result;
+                }
+
+                pergunta.innerHTML = highlight(originalPergunta, normalizedPergunta);
+                resposta.innerHTML = highlight(originalResposta, normalizedResposta);
+
+                // Mostrar ou esconder o item
+                if (normalizedPergunta.includes(termo) || normalizedResposta.includes(termo) || termo === "") {
+                  item.style.display = 'block';
+                  temResultado = true;
+                } else {
+                  item.style.display = 'none';
+                }
+              });
+
+              categoria.style.display = temResultado || termo === "" ? 'block' : 'none';
+            });
+          });
+        }
+        
   // === Controle do formulário de ticket ===
   const formTicket = document.getElementById('formTicket');
   const mostrarFormBtn = document.getElementById('mostrarFormularioTicket');

@@ -576,3 +576,75 @@ input[type="file"] {
 #uploadBO {
   margin-top: 15px;
 }
+
+/*caixa de pesquisa*/
+
+.faq-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+  flex-wrap: wrap; /* permite quebrar a linha */
+         /* dá espaço entre título e barra no desktop */
+}
+
+.faq-header h2 {
+  font-size: 1.8rem;
+  color: #333;
+  margin: 0;
+}
+
+.faq-search {
+  flex: 1;
+}
+
+.faq-search input {
+  width: 100%;
+  padding: 6px 0;
+  border: none;
+  border-bottom: 2px solid #000; 
+  font-size: 1rem;
+  background: transparent;
+  border-radius: 0; 
+  max-width: 300px;
+}
+
+.faq-search input:focus {
+  outline: none;
+  border-bottom: 2px solid #007BFF; 
+}
+
+#faqSearch {
+  flex: 1;
+  margin-left: 20px;
+  border: none;
+  border-bottom: 2px solid #000;
+  outline: none;
+  padding: 5px;
+  font-size: 16px;
+  min-width: 200px; /* evita ficar minúsculo */
+}
+
+
+
+/* 📱 Responsivo para telas menores */
+@media (max-width: 768px) {
+  .faq-header {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  #faqSearch {
+    margin-left: 0;
+    margin-top: 10px; /* espaço do título */
+    width: 100%;      /* ocupa a linha inteira */
+  }
+}
+
+/*highligh to texto*/
+.highlight {
+  background-color: yellow;
+}
+
+
+
