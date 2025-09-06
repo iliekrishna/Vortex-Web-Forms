@@ -1,0 +1,288 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Formulário com abas</title>
+    <link rel="icon" href="images/IconeVortex.ico" type="image/x-icon"> <!--icone da pagina-->
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <img src="images/logo_fatec_br.png" alt="Logo Fatec" class="logo" draggable="false">
+
+  <div class="tab">
+    <button class="tablinks active" data-tab="tabEnviar">Dúvidas Frequentes</button>
+    <button class="tablinks" data-tab="tabSolicitarDoc">Solicitar Documentos</button>
+    <button class="tablinks" data-tab="tabBuscar">Buscar Resposta</button>
+  </div>
+
+  <div class="container">
+    <div id="tabEnviar" class="tabcontent active">
+      
+      <!--pesquisar-->
+      
+      <div class="faq-header">
+        <h2>Dúvidas Frequentes</h2>
+        <div class="faq-search">
+          <input type="text" id="faqSearch" placeholder="Pesquisar dúvida..." />
+        </div>
+      </div>
+      
+      <div class="faq-section">
+        <div class="faq-categorias">
+          <div class="faq-categoria" data-categoria="matricula_trancamento">
+            <h4>Matrícula e Trancamento</h4>
+            <div class="faq-perguntas" style="display:none;"></div>
+          </div>
+          <div class="faq-categoria" data-categoria="documentos_emissao">
+            <h4>Documentos e Emissão</h4>
+            <div class="faq-perguntas" style="display:none;"></div>
+          </div>
+          <div class="faq-categoria" data-categoria="passe_escolar">
+            <h4>Passe Escolar</h4>
+            <div class="faq-perguntas" style="display:none;"></div>
+          </div>
+          <div class="faq-categoria" data-categoria="estagio">
+            <h4>Estágio</h4>
+            <div class="faq-perguntas" style="display:none;"></div>
+          </div>
+          <div class="faq-categoria" data-categoria="gerenciamento_curso">
+            <h4>Gerenciamento do Curso</h4>
+            <div class="faq-perguntas" style="display:none;"></div>
+          </div>
+          <div class="faq-categoria" data-categoria="outros">
+            <h4>Outros</h4>
+            <div class="faq-perguntas" style="display:none;"></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="separator"></div>
+      
+      <div class="ticket-cta">
+        <p>Ainda não teve sua dúvida respondida?</p>
+        <button id="mostrarFormularioTicket">Clique aqui para enviar um ticket de dúvidas para a secretaria</button>
+      </div>
+
+      <form id="formTicket" class="form-container">
+        <div class="form-box">
+          <div class="form-header">
+            <h3>Formulário de Ticket</h3>
+            <button type="button" class="close-form">✕</button>
+          </div>
+          
+          <label for="nome">Nome:</label>
+          <input type="text" name="nome_aluno" id="nome_aluno" required>
+          
+          <label for="email">E-mail:</label>
+          <input type="email" name="email" id="email_ticket" required>
+
+          <label for="cpf">CPF:</label>
+          <input type="text" name="cpf" id="cpf" maxlength="14" required />
+
+          <label for="tipo_vinculo">Tipo de Vínculo:</label>
+          <select name="tipo_vinculo" id="tipo_vinculo_ticket" required>
+            <option value="">Selecione...</option>
+            <option value="Aluno">Aluno</option>
+            <option value="Ex-aluno">Ex-aluno</option>
+            <option value="Comunidade externa">Comunidade externa</option>
+          </select>
+
+          <!-- Agrupar RA e Curso -->
+          <div id="grupoAluno" class = "form-container-grupo">
+            <label for="raEnviar">RA:</label>
+            <input type="text" name="ra" id="raEnviar" inputmode="numeric" placeholder="Digite aqui o seu RA" required/>
+
+            <label for="curso">Curso:</label>
+            <select name="curso" id="curso">
+              <option value="">-- Selecione seu curso --</option>
+              <option value="Logística Aeroportuária">Logística Aeroportuária</option>
+              <option value="Logística Tarde">Logística - Tarde</option>
+              <option value="Logística Noite">Logística - Noite</option>
+              <option value="Gestão Empresarial (EAD)">Gestão Empresarial (EAD)</option>
+              <option value="Análise e Desenvolvimento de Sistemas">Análise e Desenvolvimento de Sistemas</option>
+              <option value="Comércio Exterior">Comércio Exterior</option>
+              <option value="Gestão da Produção Industrial">Gestão da Produção Industrial</option>
+            </select>
+          </div>
+
+
+          <label for="categoria">Assunto:</label>
+          <select name="categoria" id="categoria" required>
+              <option value="">-- Selecione --</option>
+              <option value="Matrícula e Trancamento">Matrícula e Trancamento</option>
+              <option value="Documentos e Emissao">Documentos e Emissão</option>
+              <option value="Passe Escolar">Passe Escolar</option>
+              <option value="Estágio">Estágio</option>
+              <option value="Gerenciamento de Curso">Gerenciamento do Curso</option>
+              <option value="Outros">Outros</option>
+          </select>
+
+          <label for="assunto">Dúvida:</label>
+          <textarea name="assunto" id="assunto" required></textarea>
+
+          <input type="submit" value="Enviar Ticket">
+        </div>
+      </form>
+    </div>
+
+    <div id="tabBuscar" class="tabcontent">
+      <div class="content-box">
+        <div class="titulo-documentos">
+          <h2>Buscar Resposta</h2>
+          <button id="ajudaBotaoBuscar" class="botao-prazos">Ajuda</button>
+        </div>
+        <div id="ajudaTextoBuscar">
+          <p>Digite seu CPF no campo abaixo e clique em "Buscar resposta".</p>
+          <p>Você verá sua solicitação mais recente e, abaixo, o histórico completo.</p>
+          <p>Certifique-se de digitar o CPF completo utilizado no formulário de envio de dúvida ou solicitação de documento. </p>
+        </div>
+
+
+
+
+        <div class="form-group">
+          <label for="cpfBuscar">Digite o CPF:</label>
+          <input type="text" maxlength="14" id="cpfBuscar" placeholder="Digite aqui seu CPF" />
+          <button id="btnBuscar">Buscar</button>
+        </div>
+
+        <div class="separator"></div>
+        <div id="resultadoContainer" class="resposta-container" style="display: none;">
+          <div>
+            <h3>Resposta mais recente:</h3>
+            <div id="respostaResultado" class="caixa-conteudo"></div>
+          </div>
+
+          <div>
+            <h3>Histórico:</h3>
+            <div id="historicoResultado" class="caixa-conteudo"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div id="tabSolicitarDoc" class="tabcontent">
+      <div class="content-box">
+
+        <!-- Ìcone de dúvida da aba solicitar documento -->
+        <h2 class="titulo-documentos">
+          Solicitar Documentos
+          <button id="ajudaBotao" class="botao-prazos">Ajuda</button>
+        </h2>
+
+        <div id="ajudaTexto">
+            Os seguintes documentos devem ser solicitados pela plataforma SIGA: <br><br>
+            <strong>Atestado de Matrícula Símples</strong> <br>
+            <strong>Atestado de Matrícula com Diciplinas</strong> <br>
+            <strong>Atestado de Previsão de Conclusão</strong> <br>
+            <strong>Atestado de Período</strong> <br>
+            <br><br>
+            Para solicitar passe escolar acesse: <a href="https://www.fatecguarulhos.edu.br/secretaria/passe-escolar/" target="_blank">https://www.fatecguarulhos.edu.br/secretaria/passe-escolar/</a>
+        </div>
+        
+        <!-- formulario requerimento -->
+        <form id="formRequerimento" method="POST" enctype="multipart/form-data">
+
+
+            <label for="nomeDocumento">Nome:</label>
+            <input type="text" id="nome" name="nome">
+
+            <label for="cpfDoc">CPF:</label>
+            <input type="text" name="cpf" id="cpfDoc" maxlength="14" required />
+
+            <label for="emailDocumento">E-mail:</label>
+            <input type="email" id="email_req" name="email">
+
+            <label for="rgDocumento">RG:</label>
+            <input type="text" id="rg" name="rg">
+
+            <label for="foneContato">Fone para Contato:</label>
+            <input type="text" id="telefone" name="telefone">
+
+            <label for="tipo_vinculo">Tipo de Vínculo:</label>
+            <select id="tipo_vinculo_req" name="tipo_vinculo" required>
+              <option value="">Selecione...</option>
+              <option value="Aluno">Aluno</option>
+              <option value="Ex-aluno">Ex-aluno</option>
+            </select>
+
+            <div id="grupoRA">
+              <label for="raDocumento">Nº de Matrícula (RA):</label>
+              <input type="text" id="ra" name="ra">
+            </div>
+
+            <label for="cursoDoc">Curso:</label>
+            <select id="cursoDoc" name="curso" required>
+                <option value="">-- Selecione seu curso --</option>
+                <option value="Logística Aeroportuária">Logística Aeroportuária</option>
+                <option value="Logística Tarde">Logística – Tarde</option>
+                <option value="Logística Noite">Logística – Noite</option>
+                <option value="Gestão Empresarial (EAD)">Gestão Empresarial (EAD)</option>
+                <option value="Análise e Desenvolvimento de Sistemas">Análise e Desenvolvimento de Sistemas</option>
+                <option value="Comércio Exterior">Comércio Exterior</option>
+                <option value="Gestão da Produção Industrial">Gestão da Produção Industrial</option>
+            </select>
+
+            <label for="documentoSelecionado">Selecione o Documento Solicitado:</label> <!-- alterar para js -->
+            <select id="nome_doc" name="nome_doc" required>
+                <option value="">Carregando documentos...</option>
+            </select>
+
+            <div id="blocoImagem" style="display: none; margin-top: 10px;">
+                <label for="motivo_segunda_via">Motivo da 2ª via:</label>
+                <select id="motivo_segunda_via" name="motivo_segunda_via">
+                    <option value="">-- Selecione --</option>
+                    <option value="Perda">Perda</option>
+                    <option value="Roubo/Furto">Roubo/Furto</option>
+                </select>
+
+                <div id="uploadComprovante" style="display: none; margin-top: 10px;">
+                    <label for="comprovante">Comprovante de Pagamento:</label>
+                    <div class="file-upload-wrapper">
+                        <input type="file" id="comprovante" name="comprovante" class="file-upload-input" />
+                        <button type="button" class="file-upload-btn">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-arrow-up-circle" viewBox="0 0 16 16">
+                                <path fill-rule="evenodd" d="M8 15A7 7 0 1 0 8 1a7 7 0 0 0 0 14zm0-1A6 6 0 1 1 8 2a6 6 0 0 1 0 12z"/>
+                                <path fill-rule="evenodd" d="M8 12a.5.5 0 0 0 .5-.5V5.707l1.146 1.147a.5.5 0 0 0 .708-.708l-2-2-.007-.007a.498.498 0 0 0-.697.014l-2 2a.5.5 0 0 0 .708.708L7.5 5.707V11.5A.5.5 0 0 0 8 12z"/>
+                            </svg>
+                            Selecionar Comprovante
+                        </button>
+                        <span class="file-upload-filename">Nenhum arquivo selecionado</span>
+                    </div>
+                </div>
+
+                <div id="uploadBO" style="display: none; margin-top: 10px;">
+                    <label for="bo">Boletim de Ocorrência (B.O.):</label>
+                    <div class="file-upload-wrapper">
+                        <input type="file" id="bo" name="bo" class="file-upload-input" />
+                        <button type="button" class="file-upload-btn">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-arrow-up-circle" viewBox="0 0 16 16">
+                                <path fill-rule="evenodd" d="M8 15A7 7 0 1 0 8 1a7 7 0 0 0 0 14zm0-1A6 6 0 1 1 8 2a6 6 0 0 1 0 12z"/>
+                                <path fill-rule="evenodd" d="M8 12a.5.5 0 0 0 .5-.5V5.707l1.146 1.147a.5.5 0 0 0 .708-.708l-2-2-.007-.007a.498.498 0 0 0-.697.014l-2 2a.5.5 0 0 0 .708.708L7.5 5.707V11.5A.5.5 0 0 0 8 12z"/>
+                            </svg>
+                            Selecionar B.O.
+                        </button>
+                        <span class="file-upload-filename">Nenhum arquivo selecionado</span>
+                    </div>
+                </div>
+            </div>
+
+
+            <input type="submit" value="Solicitar Documento">
+        </form>
+        
+
+        
+
+        <div class="separator"></div>
+        <div class="document-deadlines">
+            <h3>Prazos estimados:</h3>
+            <div id="prazosContainer"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <script src="script.js"></script>
+</body>
+</html>
