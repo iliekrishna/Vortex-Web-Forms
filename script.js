@@ -1,7 +1,7 @@
 document.addEventListener('DOMContentLoaded', () => {
   
   // Mostrar ou esconder campos RA/Curso conforme o tipo de vínculo
-  const tipoVinculoSelect = document.getElementById('tipo_vinculo');
+  const tipoVinculoSelect = document.getElementById('tipo_vinculo_ticket');
   const grupoAluno = document.getElementById('grupoAluno'); // Seu grupo com RA, Curso etc
     const campoRA = document.getElementById('raEnviar');
     // --- Popula select de documentos via PHP ---
@@ -36,14 +36,15 @@ document.addEventListener('DOMContentLoaded', () => {
             });
     }
 
-
-
   tipoVinculoSelect.addEventListener('change', function () {
     const valor = this.value;
 
     if (valor === 'Aluno' || valor === 'Ex-aluno') {
       grupoAluno.classList.add('visible');  // mostra grupo RA, Curso...
-      if (campoRA) campoRA.required = true;  // RA obrigatório
+      if (campoRA) {
+        campoRA.required = (valor === 'Aluno'); // só obrigatório se for Aluno
+        if (valor === 'Ex-aluno') campoRA.value = ''; // pode deixar vazio
+      }
     } else if (valor === 'Comunidade externa') {
       grupoAluno.classList.remove('visible'); // esconde grupo RA, Curso...
       if (campoRA) {
@@ -388,7 +389,7 @@ document.addEventListener('DOMContentLoaded', () => {
         }
 
         //Validação de ra
-        const tipoVinculo = document.getElementById('tipo_vinculo').value;
+        const tipoVinculo = document.getElementById('tipo_vinculo_ticket').value;
         const raValor = document.getElementById('raEnviar').value.trim();
 
         if (tipoVinculo === 'Aluno' || tipoVinculo === 'Ex-aluno') {
@@ -543,42 +544,54 @@ document.addEventListener('DOMContentLoaded', () => {
   
   // === Envio do requerimento ===
       const formRequerimento = document.getElementById('formRequerimento');
+      const tipoVinculo = document.getElementById('tipo_vinculo_req'); // novo ID
+      const raInput = document.getElementById('ra');
+      const grupoRA = document.getElementById('grupoAluno'); // container do RA/Curso
+
+      // Mostrar RA sempre, obrigatoriedade apenas para aluno
+      tipoVinculo.addEventListener('change', () => {
+          // mostra sempre
+          grupoRA.classList.add('visible');
+
+          // RA obrigatório só se for Aluno
+          raInput.required = tipoVinculo.value === 'Aluno';
+      });
+
       if (formRequerimento) {
-        formRequerimento.addEventListener('submit', function(e) {
-          e.preventDefault();
-          
-          const cpfInput = document.getElementById('cpfDoc');
-          if (!validarCPF(cpfInput.value)) {
+          formRequerimento.addEventListener('submit', function(e) {
+              e.preventDefault();
+
+        const cpfInput = document.getElementById('cpfDoc');
+        if (!validarCPF(cpfInput.value)) {
             alert('❌ CPF inválido. Verifique os números digitados.');
             return;
-          }
+        }
 
-          // Validação do nome
-          const nomeReq = document.getElementById('nome').value.trim();
-          const nomeReqValido = /^[A-Za-zÀ-ÖØ-öø-ÿ'\-\s]+$/.test(nomeReq);
-          if (!nomeReqValido) {
+        const nomeReq = document.getElementById('nome').value.trim();
+        const nomeValido = /^[A-Za-zÀ-ÖØ-öø-ÿ'\-\s]+$/.test(nomeReq);
+        if (!nomeValido) {
             alert('❌ Nome inválido. Verifique o nome digitado.');
             return;
-          }
+        }
 
-          // Validação de RG
-          if (!validarRG(document.getElementById('rg').value)) {
+        if (!validarRG(document.getElementById('rg').value)) {
             alert('❌ RG inválido. Verifique os números digitados.');
             return;
-          }
+        }
 
-          // Validação de telefone
-          if (!validarTelefone(document.getElementById('telefone').value)) {
+        if (!validarTelefone(document.getElementById('telefone').value)) {
             alert('❌ Telefone inválido. Verifique os números digitados.');
             return;
-          }
+        }
 
-          // Validação de RA
-          const ra = document.getElementById('ra').value;
-          if (!validarRA(ra)) {
+        // Validação RA condicional
+        const ra = raInput.value.trim();
+        if (tipoVinculo.value === 'Aluno' && !validarRA(ra)) {
             alert('❌ RA inválido. Verifique os números digitados.');
             return;
-          }
+        }
+
+
 
           // Seleciona motivo e arquivos
           const motivo = document.getElementById('motivo_segunda_via').value;
@@ -607,16 +620,18 @@ document.addEventListener('DOMContentLoaded', () => {
           console.log('Motivo segunda via:', motivo);
 
           // --- Criar FormData ---
-          const formData = new FormData();
+         const formData = new FormData();
+          formData.append('tipo_vinculo', tipoVinculo.value); // <- ESSENCIAL
           formData.append('ra', ra);
           formData.append('telefone', document.getElementById('telefone').value.replace(/\D/g, ''));
           formData.append('curso', document.getElementById('cursoDoc').value);
           formData.append('nome', nomeReq);
           formData.append('rg', document.getElementById('rg').value.replace(/\D/g, ''));
-          formData.append('email', document.querySelector('#formRequerimento #email').value);
+          formData.append('email', document.getElementById('email_req').value);
           formData.append('nome_doc', document.getElementById('nome_doc').value);
           formData.append('cpf', cpfInput.value.replace(/\D/g, ''));
           formData.append('motivo_segunda_via', motivo);
+
 
           // Adiciona arquivos ao FormData
           if (comprovanteInput && comprovanteInput.files.length > 0) {

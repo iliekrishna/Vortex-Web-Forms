@@ -75,13 +75,13 @@
           <input type="text" name="nome_aluno" id="nome_aluno" required>
           
           <label for="email">E-mail:</label>
-          <input type="email" name="email" id="email" required>
+          <input type="email" name="email" id="email_ticket" required>
 
           <label for="cpf">CPF:</label>
           <input type="text" name="cpf" id="cpf" maxlength="14" required />
 
           <label for="tipo_vinculo">Tipo de Vínculo:</label>
-          <select name="tipo_vinculo" id="tipo_vinculo" required>
+          <select name="tipo_vinculo" id="tipo_vinculo_ticket" required>
             <option value="">Selecione...</option>
             <option value="Aluno">Aluno</option>
             <option value="Ex-aluno">Ex-aluno</option>
@@ -172,17 +172,13 @@
         </h2>
 
         <div id="ajudaTexto">
-            Preencha o formulário abaixo para solicitar os seguintes documentos:<br><br>
-            <strong>Histórico Escolar</strong><br>
-            <strong>Carteira de Identidade Escolar (RA)</strong><br>
-            <strong>Conteúdo Programático</strong><br>
-            <strong>Declaração de Conclusão de Curso</strong><br>
-            <strong>Certificado de Conclusão de Curso</strong><br><br>
             Os seguintes documentos devem ser solicitados pela plataforma SIGA: <br><br>
             <strong>Atestado de Matrícula Símples</strong> <br>
             <strong>Atestado de Matrícula com Diciplinas</strong> <br>
             <strong>Atestado de Previsão de Conclusão</strong> <br>
             <strong>Atestado de Período</strong> <br>
+            <br><br>
+            Para solicitar passe escolar acesse: <a href="https://www.fatecguarulhos.edu.br/secretaria/passe-escolar/" target="_blank">https://www.fatecguarulhos.edu.br/secretaria/passe-escolar/</a>
         </div>
         
         <!-- formulario requerimento -->
@@ -196,7 +192,7 @@
             <input type="text" name="cpf" id="cpfDoc" maxlength="14" required />
 
             <label for="emailDocumento">E-mail:</label>
-            <input type="email" id="email" name="email">
+            <input type="email" id="email_req" name="email">
 
             <label for="rgDocumento">RG:</label>
             <input type="text" id="rg" name="rg">
@@ -204,8 +200,17 @@
             <label for="foneContato">Fone para Contato:</label>
             <input type="text" id="telefone" name="telefone">
 
-            <label for="raDocumento">Nº de Matrícula (RA):</label>
-            <input type="text" id="ra" name="ra">
+            <label for="tipo_vinculo">Tipo de Vínculo:</label>
+            <select id="tipo_vinculo_req" name="tipo_vinculo" required>
+              <option value="">Selecione...</option>
+              <option value="Aluno">Aluno</option>
+              <option value="Ex-aluno">Ex-aluno</option>
+            </select>
+
+            <div id="grupoRA">
+              <label for="raDocumento">Nº de Matrícula (RA):</label>
+              <input type="text" id="ra" name="ra">
+            </div>
 
             <label for="cursoDoc">Curso:</label>
             <select id="cursoDoc" name="curso" required>

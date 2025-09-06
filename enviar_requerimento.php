@@ -20,6 +20,7 @@ try {
 }
 
 // Recebe campos
+$tipo_vinculo = trim($_POST['tipo_vinculo'] ?? '');
 $ra = trim($_POST['ra'] ?? '');
 $telefone = trim($_POST['telefone'] ?? '');
 $curso = trim($_POST['curso'] ?? '');
@@ -28,30 +29,42 @@ $cpf = trim($_POST['cpf'] ?? '');
 $rg = trim($_POST['rg'] ?? '');
 $email = trim($_POST['email'] ?? '');
 $nome_doc = trim($_POST['nome_doc'] ?? '');
-$motivo = trim($_POST['motivo_segunda_via'] ?? ''); // Este campo é o problema
+$motivo = trim($_POST['motivo_segunda_via'] ?? '');
 
-// Validação básica
-// Campos que são SEMPRE obrigatórios
-if (!$ra || !$telefone || !$curso || !$nome || !$cpf || !$rg || !$email || !$nome_doc) {
-    echo json_encode(['sucesso' => false, 'mensagem' => 'Por favor, preencha todos os campos obrigatórios.']);
+// Validação condicional
+$erros = [];
+
+// campos obrigatórios sempre
+if (!$tipo_vinculo) $erros[] = 'Tipo de vínculo é obrigatório.';
+if (!$nome) $erros[] = 'Nome é obrigatório.';
+if (!$cpf) $erros[] = 'CPF é obrigatório.';
+if (!$rg) $erros[] = 'RG é obrigatório.';
+if (!$telefone) $erros[] = 'Telefone é obrigatório.';
+if (!$email) $erros[] = 'Email é obrigatório.';
+if (!$nome_doc) $erros[] = 'Documento é obrigatório.';
+
+// RA e Curso obrigatórios apenas para Aluno
+if ($tipo_vinculo === 'Aluno') {
+    if (!$ra) $erros[] = 'RA obrigatório para alunos.';
+    if (!$curso) $erros[] = 'Curso obrigatório para alunos.';
+}
+
+// retorna erros
+if (!empty($erros)) {
+    echo json_encode(['sucesso' => false, 'mensagem' => implode(' ', $erros)]);
     exit;
 }
 
-// Validação CONDICIONAL para o campo 'motivo'
-if ($nome_doc === 'Carteira de Identidade Escolar (RA)' && !$motivo) {
-    echo json_encode(['sucesso' => false, 'mensagem' => 'Por favor, selecione o motivo da segunda via.']);
-    exit;
-}
-
+// --- Processa arquivos ---
 $id_imagem = null;
 $uploadDir = "img_requerimentos/";
 if (!is_dir($uploadDir)) mkdir($uploadDir, 0777, true);
 
-// 1️⃣ Se for Carteira de Identidade Escolar (RA), processa os uploads
 $endereco_bo = null;
 $endereco_comprovante = null;
 
-if ($nome_doc === 'Carteira de Identidade Escolar (RA)') {
+// Se o documento exigir RA/Imagem
+if ($nome_doc === 'Carteira de Identidade Escolar (RA)' && $ra) {
 
     // Comprovante obrigatório
     if (!isset($_FILES['comprovante']) || $_FILES['comprovante']['error'] !== UPLOAD_ERR_OK) {
@@ -78,7 +91,6 @@ if ($nome_doc === 'Carteira de Identidade Escolar (RA)') {
             exit;
         }
     }
-    
 
     // Salva dados da imagem na tabela t_img_requerimento
     $stmtImg = $pdo->prepare("
@@ -93,16 +105,18 @@ if ($nome_doc === 'Carteira de Identidade Escolar (RA)') {
     $id_imagem = $pdo->lastInsertId();
 }
 
-// 2️⃣ Insere o requerimento
+// --- Insere o requerimento ---
 try {
     $stmtReq = $pdo->prepare("
-        INSERT INTO t_requerimentos (ra, telefone, curso, nome, cpf, rg, email, nome_doc, id_imagem)
-        VALUES (:ra, :telefone, :curso, :nome, :cpf, :rg, :email, :nome_doc, :id_imagem)
+        INSERT INTO t_requerimentos 
+        (tipo_vinculo, ra, telefone, curso, nome, cpf, rg, email, nome_doc, id_imagem)
+        VALUES (:tipo_vinculo, :ra, :telefone, :curso, :nome, :cpf, :rg, :email, :nome_doc, :id_imagem)
     ");
     $stmtReq->execute([
-        ':ra' => $ra,
+        ':tipo_vinculo' => $tipo_vinculo,
+        ':ra' => $ra ?: null,
         ':telefone' => $telefone,
-        ':curso' => $curso,
+        ':curso' => $curso ?: null,
         ':nome' => $nome,
         ':cpf' => $cpf,
         ':rg' => $rg,
