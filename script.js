@@ -10,7 +10,7 @@ document.addEventListener('DOMContentLoaded', () => {
         // Mensagem inicial
         nomeDoc.innerHTML = '<option value="">Carregando documentos...</option>';
 
-        fetch('Trazer_Doc.php')
+        fetch('trazer_doc.php')
             .then(resp => resp.json())
             .then(data => {
                 if (data.sucesso) {
@@ -229,7 +229,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     // === FAQ toggle ===
-    fetch('Trazer_faqs.php')
+    fetch('trazer_faqs.php')
         .then(resp => resp.json())
         .then(data => {
             if (data.success) {
@@ -763,7 +763,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const prazosContainer = document.getElementById('prazosContainer');
 
-    fetch('Prazo.php')
+    fetch('prazo.php')
         .then(resp => resp.json())
         .then(data => {
             if (data.sucesso && data.documentos.length > 0) {
