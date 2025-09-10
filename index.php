@@ -30,30 +30,7 @@
       
       <div class="faq-section">
         <div class="faq-categorias">
-          <div class="faq-categoria" data-categoria="matricula_trancamento">
-            <h4>Matrícula e Trancamento</h4>
-            <div class="faq-perguntas" style="display:none;"></div>
-          </div>
-          <div class="faq-categoria" data-categoria="documentos_emissao">
-            <h4>Documentos e Emissão</h4>
-            <div class="faq-perguntas" style="display:none;"></div>
-          </div>
-          <div class="faq-categoria" data-categoria="passe_escolar">
-            <h4>Passe Escolar</h4>
-            <div class="faq-perguntas" style="display:none;"></div>
-          </div>
-          <div class="faq-categoria" data-categoria="estagio">
-            <h4>Estágio</h4>
-            <div class="faq-perguntas" style="display:none;"></div>
-          </div>
-          <div class="faq-categoria" data-categoria="gerenciamento_curso">
-            <h4>Gerenciamento do Curso</h4>
-            <div class="faq-perguntas" style="display:none;"></div>
-          </div>
-          <div class="faq-categoria" data-categoria="outros">
-            <h4>Outros</h4>
-            <div class="faq-perguntas" style="display:none;"></div>
-          </div>
+          <!-- Categorias e perguntas serão inseridas aqui dinamicamente -->
         </div>
       </div>
 
@@ -106,7 +83,6 @@
             </select>
           </div>
 
-
           <label for="categoria">Assunto:</label>
           <select name="categoria" id="categoria" required>
               <option value="">-- Selecione --</option>
@@ -137,9 +113,6 @@
           <p>Você verá sua solicitação mais recente e, abaixo, o histórico completo.</p>
           <p>Certifique-se de digitar o CPF completo utilizado no formulário de envio de dúvida ou solicitação de documento. </p>
         </div>
-
-
-
 
         <div class="form-group">
           <label for="cpfBuscar">Digite o CPF:</label>
@@ -183,7 +156,6 @@
         
         <!-- formulario requerimento -->
         <form id="formRequerimento" method="POST" enctype="multipart/form-data">
-
 
             <label for="nomeDocumento">Nome:</label>
             <input type="text" id="nome" name="nome">
@@ -268,12 +240,8 @@
                 </div>
             </div>
 
-
             <input type="submit" value="Solicitar Documento">
         </form>
-        
-
-        
 
         <div class="separator"></div>
         <div class="document-deadlines">
