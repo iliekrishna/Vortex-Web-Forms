@@ -386,6 +386,18 @@ button#mostrarFormularioTicket:hover {
   border-left: 5px solid #b20000; /* Borda lateral vermelha */
 }
 
+/* Estilo para cada item do histórico */
+.historico-item {
+  background-color: #ffffff;   /* Fundo branco */
+  padding: 15px 20px;
+  margin-bottom: 20px;         /* Espaço entre os blocos */
+  border-radius: 8px;          /* Bordas arredondadas */
+  box-shadow: 0 2px 5px rgba(0,0,0,0.05); /* Sombra leve */ 
+  border: 1px solid #eee; /* Adiciona uma borda sutil no lugar da borda lateral */
+  position: relative;    /* NECESSÁRIO para posicionar a bolinha */
+  border-left: 5px solid #b20000; /* Borda lateral vermelha */
+}
+
 .historico-item p {
   margin: 0 0 10px 0;
 }
@@ -647,4 +659,29 @@ input[type="file"] {
 }
 
 
+/* === Indicador de Status (Bolinha) === */
+.historico-item .status-indicator {
+    position: absolute;
+    top: 10px;        /* Distância do topo */
+    right: 10px;      /* Distância da direita */
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    border: 2px solid #fff; /* Borda branca para destacar do fundo do container */
+    box-shadow: 0 0 3px rgba(0,0,0,0.3); /* Sombra para dar profundidade */
+}
 
+/* Respondido = VERDE */
+.historico-item.respondido .status-indicator {
+    background-color: #4CAF50; /* Verde */
+}
+
+/* Ainda não respondido = AMARELO */
+.historico-item.nao-respondido .status-indicator {
+    background-color: #FFC107; /* Amarelo/Laranja */
+}
+
+/* Cancelado/Rejeitado = VERMELHO */
+.historico-item.cancelado .status-indicator {
+    background-color: #F44336; /* Vermelho */
+}

@@ -506,21 +506,27 @@ document.addEventListener('DOMContentLoaded', () => {
 
 
     // === Histórico completo (inclusive sem resposta) ===
-    let htmlHistorico = '';
-    data.historico.forEach((item, idx) => {
-      const label = item.tipo === 'requerimento' ? 'Documento Solicitado' : 'Assunto';
+    let htmlHistorico = '';
+    data.historico.forEach((item, idx) => {
+      const label = item.tipo === 'requerimento' ? 'Documento Solicitado' : 'Assunto';
 
       let respostaTexto;
       if (item.status === "Cancelado") {
-        respostaTexto = `Pergunta invalidada. Justificativa: ${item.resposta || 'Sem justificativa informada'}`;
+         respostaTexto = `Pergunta invalidada. Justificativa: ${item.resposta || 'Sem justificativa informada'}`;
       } else {
-        respostaTexto = item.resposta || 'Ainda não respondido';
-      }
+         respostaTexto = item.resposta || 'Ainda não respondido';
+     }
+
+    // Determina a classe de cor para a "bolinha"
+    const statusClass = item.status === "Cancelado" 
+        ? 'cancelado' 
+        : (item.resposta && item.resposta.trim() !== '' ? 'respondido' : 'nao-respondido');
 
       htmlHistorico += `
-        <div class="historico-item">
+        <div class="historico-item ${statusClass}">
+          <div class="status-indicator"></div>
           <p><strong>${label}:</strong> ${item.titulo || 'Não especificado'}</p>
-          <p><strong>Resposta:</strong> ${respostaTexto}</p>
+           <p><strong>Resposta:</strong> ${respostaTexto}</p>
         </div>
         ${idx < data.historico.length - 1 ? '<hr>' : ''}
       `;
