@@ -788,6 +788,32 @@ document.addEventListener('DOMContentLoaded', () => {
             prazosContainer.innerHTML = '<p>Erro ao carregar os prazos.</p>';
         });
 
+    fetch('trazer_categorias.php')
+        .then(resp => resp.json())
+        .then(data => {
+            const selectCategoria = document.getElementById('categoria');
+
+            if (data.success && data.categorias.length > 0) {
+
+                // Limpa antes para evitar duplicações caso o script execute mais de uma vez
+                selectCategoria.innerHTML = '<option value="">-- Selecione --</option>';
+
+                data.categorias.forEach(cat => {
+                    const option = document.createElement('option');
+                    option.value = cat.nome; // ou cat.id se quiser gravar o ID
+                    option.textContent = cat.nome;
+                    selectCategoria.appendChild(option);
+                });
+
+            } else {
+                console.warn("Nenhuma categoria encontrada ou erro no retorno.");
+                selectCategoria.innerHTML = '<option value="">Sem categorias cadastradas</option>';
+            }
+        })
+        .catch(err => {
+            console.error('Erro ao carregar categorias:', err);
+        });
+
 
 
 

@@ -15,7 +15,7 @@ try {
         PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION
     ]);
 
-    // Buscar todas as categorias + FAQs, ordenando para que "Outros" fique por último
+    // Buscar todas as categorias e FAQs, ordenando para que outros fique por último
     $sql = "SELECT f.id_faq, f.pergunta, f.resposta, f.categoria_id, c.nome
             FROM t_faq f
             INNER JOIN t_faq_categoria c ON f.categoria_id = c.id

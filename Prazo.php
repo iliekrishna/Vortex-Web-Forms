@@ -10,7 +10,7 @@ $pass = 'gWLQqb~dRO0M';
 $charset = 'utf8mb4';
 
 
-//conection bd
+
 try {
     $dsn = "mysql:host=$host;dbname=$db;charset=$charset";
     $pdo = new PDO($dsn, $user, $pass, [
